@@ -14,8 +14,8 @@ namespace MasaEngine{
 		}
 
 		glm::vec4 getUVs(int index){
-			int xTile = index % dims.x;
-			int yTile = index / dims.x;
+			float xTile = (float)(index % dims.x);
+			float yTile = (float)(index / dims.x);
 
 			glm::vec4 uv;
 			uv.x = xTile / (float)dims.x;

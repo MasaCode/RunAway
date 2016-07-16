@@ -186,6 +186,8 @@ void LevelOneScreen::initLevel(){
 	glm::vec4 playerArea;
 
 	_level = std::make_unique<LevelManager>("Levels/level1.txt");
+	
+
 	// Objects Creation code goes here.
 
 	
