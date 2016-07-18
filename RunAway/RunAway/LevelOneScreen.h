@@ -24,6 +24,10 @@
 #include "Werewolf.h"
 #include "Orga.h"
 
+//Items
+#include "Potion.h"
+#include "Meat.h"
+
 
 
 class LevelOneScreen : public MasaEngine::IGameScreen
@@ -75,5 +79,6 @@ private:
 	Player* _player;
 	
 	std::vector<Monster*> _monsters;
+	std::vector<Item*> _items;
 };
 

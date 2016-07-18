@@ -33,6 +33,8 @@ public:
 
 	void collideWithMonsters(std::vector<Monster*>& monsters);
 
+	void collideWithItems(std::vector<Item*>& items);
+
 	bool isAttackingFast(){ return (_animTime > 4.0f && _playerState == PlayerState::ATTACKING); }
 
 	bool isPlayerDead(){ return _isDead; };
@@ -52,6 +54,7 @@ private:
 	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePosition, float x, float y);
 	void collideWithTile(glm::vec2 tilePos,bool isRight = false);
 	bool collideWithMonster(Monster* monster);
+	bool collideWithItem(Item* item);
 	void calculateHitPoint();
 	bool Attack(const glm::vec2& distance);
 
@@ -76,6 +79,7 @@ private:
 	bool _finishAttacking = false;
 	bool _startDeathAnimation = false;
 	bool _isDead = false;
+	bool _isLookingItem = false;
 	int _counter = 0;
 
 	MasaEngine::TileSheet _texture;
@@ -109,6 +113,17 @@ private:
 	int _cutSize = 0;
 
 	int _numTiles = 0;
+
+	//For item
+	int _effectiveAttackTime = 0;
+	int _effectiveSpeedTime = 0;
+	int _attackEffectsCount = 0;
+	int _speedEffectsCount = 0;
+	int _additionalAttack = 0;
+	int _additionalSpeed = 0;
+
+	bool _startAttackEffect = false;
+	bool _startSpeedEffect = false;
 
 	MasaEngine::SoundEffect _levelUp;
 

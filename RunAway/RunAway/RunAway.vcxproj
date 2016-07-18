@@ -124,10 +124,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Potion.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LevelOneScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
+    <ClCompile Include="Meat.cpp" />
     <ClCompile Include="Orga.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Werewolf.cpp" />
@@ -135,19 +137,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Potion.h" />
     <ClInclude Include="Defenisions.h" />
     <ClInclude Include="Indicies.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LevelOneScreen.h" />
     <ClInclude Include="MainMenuScreen.h" />
+    <ClInclude Include="Meat.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Orga.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Werewolf.h" />
     <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CEGUI.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RunAway.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

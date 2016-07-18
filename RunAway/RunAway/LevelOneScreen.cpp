@@ -71,6 +71,10 @@ void LevelOneScreen::onExit(){
 		delete _monsters[i];
 	}
 	_monsters.clear();
+	for (size_t i = 0; i < _items.size(); i++) {
+		delete _items[i];
+	}
+	_items.clear();
 	_gui.destroy();
 	_textureProgram.dispose();
 	_level.release();
@@ -94,8 +98,19 @@ void LevelOneScreen::update(){
 		}
 	}
 
+	//Check if item is taken or not
+	for (size_t i = 0; i < _items.size(); i++) {
+		if (_items[i]->isTaken()) {
+			delete _items[i];
+			_items[i] = _items.back();
+			_items.pop_back();
+			i--;
+		}
+	}
+
 	//Collision with monster and plyer
 	_player->collideWithMonsters(_monsters);
+	_player->collideWithItems(_items);
 
 
 	//updating all of monsters movement
@@ -106,6 +121,7 @@ void LevelOneScreen::update(){
 	//Collision update
 	for (size_t i = 0; i < _monsters.size(); i++){
 		_monsters[i]->collideWithMonsters(_monsters, i);
+		_monsters[i]->collideWithItems(_items);
 	}
 
 	_camera.setPosition(_player->getPosition());
@@ -138,9 +154,17 @@ void LevelOneScreen::draw(){
 	//Draw code here
 	_player->draw(_spriteBatch);
 
+	//Drawing monsters
 	for (unsigned int i = 0; i < _monsters.size(); i++){
-		if (_camera.isBoxInView(_monsters[i]->getPosition(), glm::vec2(_monsters[i]->getSize()))){
+		if (_camera.isBoxInView(_monsters[i]->getPosition(), _monsters[i]->getSize())){
 			_monsters[i]->draw(_spriteBatch);
+		}
+	}
+
+	//Drawing items
+	for (size_t i = 0; i < _items.size(); i++) {
+		if (_camera.isBoxInView(_items[i]->getPosition(), glm::vec2(_items[i]->getSize()))) {
+			_items[i]->draw(_spriteBatch);
 		}
 	}
 
@@ -181,8 +205,10 @@ void LevelOneScreen::initUI(){
 
 void LevelOneScreen::initLevel(){
 	std::mt19937 randomEngine((unsigned int)time(NULL));
-	std::uniform_int_distribution<int> randMonster(0, 2);
+	std::uniform_int_distribution<int> randMonster(0, MONSTER_KIND-1);
 	std::uniform_int_distribution<int> randomMovement(0,1000);
+	std::uniform_int_distribution<int> randomItemNum(1, 10);
+	std::uniform_int_distribution<int> randomItemKind(0, ITEM_KIND - 1);
 	glm::vec4 playerArea;
 
 	_level = std::make_unique<LevelManager>("Levels/level1.txt");
@@ -195,9 +221,12 @@ void LevelOneScreen::initLevel(){
 	std::uniform_int_distribution<int> yPos(3, _level->getHeight() - 3);
 	std::uniform_int_distribution<int> xPos(3, _level->getWidth() - 3);
 
+	//Monsters
 	int i = 0;
 	int count = 2;
-	while(i < _level->getNumMonsters()){
+	int numMonster = _level->getNumMonsters();
+	_monsters.reserve(numMonster);
+	while(i < numMonster){
 		int temp = randMonster(randomEngine);
 		int x = xPos(randomEngine);
 		int y = yPos(randomEngine);
@@ -223,9 +252,32 @@ void LevelOneScreen::initLevel(){
 		count++;
 	}
 
-	/*_monsters.push_back(new Wolf);
-	_monsters.back()->init(2, 2, glm::vec2(500.0f), 30);*/
 
+	int numItem = randomItemNum(randomEngine);
+	int j = 0;
+	while (j < numItem) {
+		int temp = randMonster(randomEngine);
+		int x = xPos(randomEngine);
+		int y = yPos(randomEngine);
+		if (_level->getSymbol(x, y) == '.') {
+			glm::vec2 pos = glm::vec2(x * TILE_WIDTH, y * TILE_WIDTH);
+			if (temp == 0) {
+				_items.push_back(new BigPotion);
+			}
+			else if (temp == 1) {
+				_items.push_back(new SmallPotion);
+			}
+			else if (temp == 2) {
+				_items.push_back(new GoodMeat);
+			}
+			else if (temp == 3) {
+				_items.push_back(new BadMeat);
+			}
+
+			_items.back()->init(pos);
+			j++;
+		}
+	}
 
 	//Initialize player.
 	_player = Player::getInstance();

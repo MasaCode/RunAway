@@ -9,6 +9,8 @@
 #include <random>
 #include <ctime>
 
+//Version1
+
 //LevelManager::LevelManager(const std::string& fileName)
 //{
 //	std::ifstream file;
@@ -87,6 +89,8 @@
 //	_spriteBatch.end();
 //
 //}
+
+//Version2
 
 LevelManager::LevelManager(const std::string& fileName)
 {
@@ -284,6 +288,200 @@ LevelManager::LevelManager(const std::string& fileName)
 	_spriteBatch.end();
 
 }
+
+//Version3
+
+//LevelManager::LevelManager(const std::string& fileName)
+//{
+//	std::ifstream file;
+//	file.open(fileName);
+//
+//	//erro checking
+//	if (file.fail())
+//		MasaEngine::fatalError("Failed to open " + fileName);
+//
+//	//Throw away the first string in tmp
+//	std::string tmp;
+//	file >> tmp >> _numMonsters;
+//
+//
+//	std::getline(file, tmp); // Throw away the first line.
+//
+//	//Reading the data from file
+//	std::vector<std::string> levelData;
+//	while (std::getline(file, tmp)) {//this getline returns 0 or null(if failed)
+//		levelData.push_back(tmp);
+//	}
+//
+//	_levelData.resize(levelData.size());
+//	for (size_t i = 0; i < levelData.size(); i++) {
+//		_levelData[i] = levelData[levelData.size() - 1 - i];
+//	}
+//
+//
+//	_spriteBatch.init();
+//	_spriteBatch.begin();
+//
+//	glm::vec4 uvRect = glm::vec4(0.0f,0.0f,1.0f,1.0f);
+//
+//	MasaEngine::Color whiteColor = MasaEngine::Color(255,255,255,255);
+//
+//
+//	char tile;
+//
+//	for (size_t y = 0; y < _levelData.size(); y++) {
+//		for (size_t x = 0; x < _levelData[y].size(); x++) {
+//			//Grab the tile
+//			tile = _levelData[y][x];
+//			//GEet destrect
+//			glm::vec4 destRect(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+//
+//			//Process the tile
+//			switch (tile) {
+//				case '@':
+//					_startPlayerPosition.x = (float)(x * TILE_WIDTH);
+//					_startPlayerPosition.y = (float)(y * TILE_WIDTH);
+//					_levelData[y][x] = '.'; // So we dont collide with a @ (player)
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/groundGrass.png").id, 0.0f, whiteColor);
+//					break;
+//				case '#':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/red_bricks.png").id, 0.0f, whiteColor);
+//					break;
+//				case '.':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/groundGrass.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'A':	
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/glass.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'C':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/light_bricks.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'D':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/oldHouse.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'E': // FLower
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Flower.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'F':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/LB.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'G':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/MB.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'H':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/RB.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'I':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/LM.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'J':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/MM.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'K':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/RM.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'L':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/LT.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'M':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/MT.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'N':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Lake/RT.png").id, 0.0f, whiteColor);
+//					break;
+//				case 'O':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/LB.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'P':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/MB.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'Q':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/RB.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'R':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/LM.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'S':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/MM.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'T':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/RM.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'U':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/LT.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'V':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/MT.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'W':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Ground/RT.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'X':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road5.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'Y':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road6.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'Z':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road2.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'a':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road4.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'b':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road1.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'c':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road3.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'd':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road8.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'e':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road7.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'f':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road9.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'g':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road10.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				case 'h':
+//					_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/Road/Road11.png").id, 0.0f, whiteColor);
+//					_levelData[y][x] = '.';
+//					break;
+//				default:
+//					std::cout << "Unexpected symbol" << tile << " at (" << x << " , " << y << ")" << std::endl;
+//					break;
+//			}
+//			
+//
+//		}
+//	}
+//
+//	_spriteBatch.end();
+//
+//}
 
 LevelManager::~LevelManager()
 {

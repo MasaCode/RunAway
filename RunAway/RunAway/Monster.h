@@ -10,6 +10,8 @@
 
 #include "Defenisions.h"
 
+#include "Item.h"
+
 
 #undef min
 #undef max
@@ -79,10 +81,10 @@ public:
 			m_color = MasaEngine::Color(m_monsterRed, m_monsterGreen, m_monsterBlue, m_monsterAlpha);
 
 			if ((m_state == MonsterState::NOMAL || m_state == MonsterState::WAITING) && !m_startDeathAnimation){
-				_spriteBatch.draw(destRect, uvRect, m_texture.texture.id, 0.0f, m_color);
+				_spriteBatch.draw(destRect, uvRect, m_texture.texture.id, 1.0f, m_color);
 			}
 			else if (m_state == MonsterState::ATTACKING || m_startDeathAnimation){
-				_spriteBatch.draw(destRect, uvRect, m_attackMotion.texture.id, 0.0f, m_color);
+				_spriteBatch.draw(destRect, uvRect, m_attackMotion.texture.id, 1.0f, m_color);
 			}
 		}
 
@@ -110,8 +112,8 @@ public:
 			std::cout << "Percentage : " << m_hpPercentage << std::endl;*/
 
 
-			_spriteBatch.draw(hpBarDestRect, hpUVRect, m_hpBarTexture.id, 1.0f, m_color);
-			_spriteBatch.draw(hpDestRect, hpUVRect, m_hpTexture.id, 1.0f, m_hpColor);
+			_spriteBatch.draw(hpBarDestRect, hpUVRect, m_hpBarTexture.id, 2.0f, m_color);
+			_spriteBatch.draw(hpDestRect, hpUVRect, m_hpTexture.id, 2.0f, m_hpColor);
 
 		}
 
@@ -147,9 +149,15 @@ public:
 
 	}
 
-	void collideWithMonsters(std::vector<Monster*>& _monsters,int currentMonsterIndex){
-		for (size_t i = (size_t)currentMonsterIndex + 1; i < _monsters.size(); i++){
-				collideWithMonster(_monsters[i]);
+	void collideWithMonsters(std::vector<Monster*>& monsters,int currentMonsterIndex){
+		for (size_t i = (size_t)currentMonsterIndex + 1; i < monsters.size(); i++){
+				collideWithMonster(monsters[i]);
+		}
+	}
+
+	void collideWithItems(std::vector<Item*>& items) {
+		for (size_t i = 0; i < items.size(); i++) {
+			collideWithItem(items[i]);
 		}
 	}
 
@@ -212,6 +220,47 @@ protected:
 
 		return false;
 	}
+
+	bool collideWithItem(Item* item) {
+
+		//If it's too much, just delete last part.
+		const float MIN_DISTANCE_X = (m_size.x / 2.0f) + (item->getSize()/ 2.0f) - 5.0f;
+		const float MIN_DISTANCE_Y = (m_size.y / 2.0f) + (item->getSize() / 2.0f) - 3.0f;
+
+		glm::vec2 centerPosA = m_position + glm::vec2(m_size / 2.0f) + m_substructDims;
+		glm::vec2 centerPosB = item->getPosition() + glm::vec2(item->getSize() / 2.0f);
+
+		glm::vec2 distVec = centerPosA - centerPosB;
+
+		glm::vec2 MIN_DISTANCE = glm::vec2(MIN_DISTANCE_X, MIN_DISTANCE_Y);
+
+		float xDepth = MIN_DISTANCE.x - abs(distVec.x);
+		float yDepth = MIN_DISTANCE.y - abs(distVec.y);
+
+		if (xDepth > 0 && yDepth > 0) {
+			if (std::max(xDepth, 0.0f) < std::max(yDepth, 0.0f)) {
+				if (distVec.x < 0) {
+					m_position.x -= xDepth;
+				}
+				else {
+					m_position.x += xDepth;
+				}
+			}
+			else {
+				if (distVec.y < 0) {
+					m_position.y -= yDepth;
+				}
+				else {
+					m_position.y += yDepth;
+				}
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 
 	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePosition, float x, float y){
 		glm::vec2 cornerPos = glm::vec2(floor(x / (float)TILE_WIDTH), floor(y / (float)TILE_WIDTH));

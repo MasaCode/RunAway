@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include "Item.h"
+
 #include <SDL/SDL.h>
 
 Player* Player::_instance = nullptr;
@@ -37,7 +39,7 @@ void Player::init(glm::vec2& position, float speed,MasaEngine::AudioEngine& audi
 	_position = position;
 	_speed = speed;
 	_color = MasaEngine::Color(255, 255, 255, 255);
-	_state = MovingState::UP;
+	_state = MovingState::DOWN;
 
 	_hpPercentage = 1.0f;
 	_hpSize = 30;
@@ -179,7 +181,7 @@ void Player::draw(MasaEngine::SpriteBatch& _spriteBatch){
 		_color = MasaEngine::Color(255, 255, 255, _playerAlpha);
 
 		if (_playerState == PlayerState::NOMAL && !_startDeathAnimation){
-			_spriteBatch.draw(destRect, uvRect, _texture.texture.id, 0.0f, _color);
+			_spriteBatch.draw(destRect, uvRect, _texture.texture.id, 1.0f, _color);
 		}
 		else{
 			_spriteBatch.draw(destRect, uvRect, _attackTexture.texture.id, 0.0f, _color);
@@ -202,8 +204,8 @@ void Player::draw(MasaEngine::SpriteBatch& _spriteBatch){
 		_hpColor.r = 255 - _hpGreen;
 		_hpColor.g = _hpGreen;
 
-		_spriteBatch.draw(hpBarDestRect, hpUVRect, _hpBar.id, 1.0f, _color);
-		_spriteBatch.draw(hpDestRect, hpUVRect, _hitPoint.id, 1.0f, _hpColor);
+		_spriteBatch.draw(hpBarDestRect, hpUVRect, _hpBar.id, 2.0f, _color);
+		_spriteBatch.draw(hpDestRect, hpUVRect, _hitPoint.id, 2.0f, _hpColor);
 
 	}
 
@@ -235,26 +237,26 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 		}
 
 		if (inputManager.isKeyDown(SDLK_LEFT)){
-			_position.x -= _speed * 0.5f * _multiplyer;
+			_position.x -= (_speed + _additionalSpeed)  * _multiplyer;
 			_state = MovingState::LEFT;
 			_isStanding = false;
 			_playerState = PlayerState::NOMAL;
 		}
 		else if (inputManager.isKeyDown(SDLK_RIGHT)){
-			_position.x += _speed * 0.5f * _multiplyer;
+			_position.x += (_speed + _additionalSpeed)  * _multiplyer;
 			_state = MovingState::RIGHT;
 			_isStanding = false;
 			_playerState = PlayerState::NOMAL;
 		}
 		else if (inputManager.isKeyDown(SDLK_UP)){
-			_position.y += _speed * 0.5f * _multiplyer;
+			_position.y += (_speed + _additionalSpeed) * _multiplyer;
 			_state = MovingState::UP;
 			_isStanding = false;
 			_playerState = PlayerState::NOMAL;
 
 		}
 		else if (inputManager.isKeyDown(SDLK_DOWN)){
-			_position.y -= _speed * 0.5f * _multiplyer;
+			_position.y -= (_speed + _additionalSpeed) * _multiplyer;
 			_state = MovingState::DOWN;
 			_playerState = PlayerState::NOMAL;
 			_isStanding = false;
@@ -268,6 +270,16 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 			_playerState = PlayerState::ATTACKING;
 			_animTime = 0.0f;
 		}
+
+		
+		if (inputManager.isKeyDown(SDLK_LALT)) {
+			_isLookingItem = true;
+			//std::cout << "Pressed." << std::endl;
+		}
+		else {
+			_isLookingItem = false;
+		}
+
 
 	}
 
@@ -382,6 +394,13 @@ void Player::collideWithMonsters(std::vector<Monster*>& monsters){
 	}
 }
 
+
+void Player::collideWithItems(std::vector<Item*>& items) {
+	for (size_t i = 0; i < items.size(); i++) {
+		collideWithItem(items[i]);
+	}
+}
+
 bool Player::collideWithMonster(Monster* monster){
 	const float MIN_DISTANCE_X = (_size.x / 2.0f) + (monster->getSize().x / 2.0f);
 	const float MIN_DISTANCE_Y = (_size.y / 2.0f) + (monster->getSize().y / 2.0f);
@@ -397,7 +416,7 @@ bool Player::collideWithMonster(Monster* monster){
 	if (!monster->isStartedDeathAnimation()){
 		if (_playerState == PlayerState::ATTACKING && _animTime > 2.0f){
 			if (Attack(distVec) && !monster->isAttacked()){
-				monster->takeDamage(_currentAttackPoint);
+				monster->takeDamage(_currentAttackPoint + _additionalAttack);
 				monster->setAttackState(true);
 			}
 		}
@@ -452,6 +471,97 @@ bool Player::collideWithMonster(Monster* monster){
 
 	
 	
+	return false;
+}
+
+
+
+bool Player::collideWithItem(Item* item) {
+	//If it's too much, just delete last part.
+	const float MIN_DISTANCE_X = (_size.x / 2.0f) + (item->getSize() / 2.0f) - 5.0f;
+	const float MIN_DISTANCE_Y = (_size.y / 2.0f) + (item->getSize() / 2.0f) - 3.0f;
+
+	glm::vec2 centerPosA = _position + glm::vec2(_size / 2.0f) + glm::vec2(_substructWidth,_substructHeight);
+	glm::vec2 centerPosB = item->getPosition() + glm::vec2(item->getSize() / 2.0f);
+
+	glm::vec2 distVec = centerPosA - centerPosB;
+
+	glm::vec2 MIN_DISTANCE = glm::vec2(MIN_DISTANCE_X, MIN_DISTANCE_Y);
+
+	float xDepth = MIN_DISTANCE.x - abs(distVec.x);
+	float yDepth = MIN_DISTANCE.y - abs(distVec.y);
+
+	if (xDepth + 5 > 0 && yDepth + 5 > 0 && _isLookingItem) {
+			int effects = item->getEffects();
+			switch (item->getItemType()) {
+			case ItemType::HP:
+				_currentHitPoint += effects;
+				if (_currentHitPoint > _maxHitPoint) {
+					_currentHitPoint = _maxHitPoint;
+				}
+				break;
+			case ItemType::Attack:
+				//TODO : need to imprement
+				_effectiveAttackTime = item->getEffectiveTime();
+				_additionalAttack += effects;
+				if (_additionalAttack > _currentAttackPoint) {
+					_additionalAttack -= (_additionalAttack - _currentAttackPoint);
+				}
+				_attackEffectsCount = 0;
+				_startAttackEffect = true;
+				break;
+			case ItemType::Speed:
+				//TODO : need to imprement.
+				_effectiveSpeedTime = item->getEffectiveTime();
+				_additionalSpeed += effects;
+				_speedEffectsCount = 0;
+				_startSpeedEffect = true;
+				break;
+			}
+
+			item->destroy();
+	}
+
+	if (_startAttackEffect) {
+		_attackEffectsCount++;
+		if (_effectiveAttackTime < _attackEffectsCount) {
+			_attackEffectsCount = 0;
+			_additionalAttack = 0;
+			_startAttackEffect = false;
+		}
+	}
+
+	if (_startSpeedEffect) {
+		_speedEffectsCount++;
+		if (_effectiveSpeedTime < _speedEffectsCount) {
+			_speedEffectsCount = 0;
+			_additionalSpeed = 0;
+			_startSpeedEffect = false;
+		}
+	}
+
+	if (xDepth > 0 && yDepth > 0) {
+
+		if (std::max(xDepth, 0.0f) < std::max(yDepth, 0.0f)) {
+			if (distVec.x < 0) {
+				_position.x -= xDepth;
+			}
+			else {
+				_position.x += xDepth;
+			}
+		}
+		else {
+			if (distVec.y < 0) {
+				_position.y -= yDepth;
+			}
+			else {
+				_position.y += yDepth;
+			}
+		}
+
+		return true;
+	}
+
 	return false;
 }
 
