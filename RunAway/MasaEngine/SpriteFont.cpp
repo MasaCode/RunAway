@@ -30,6 +30,7 @@ namespace MasaEngine {
 			TTF_Init();
 		}
 		TTF_Font* f = TTF_OpenFont(font, size);
+
 		if (f == nullptr) {
 			fprintf(stderr, "Failed to open TTF font %s\n", font);
 			fflush(stderr);

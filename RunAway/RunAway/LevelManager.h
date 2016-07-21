@@ -27,6 +27,8 @@ public:
 	const std::vector<std::string>& getLevelData() const;
 	const char getSymbol(int x, int y);
 
+	glm::vec2 getCameraPos(const glm::vec2& cameraPos, const glm::vec2& screenSize);
+
 private:
 	std::vector<std::string> _levelData;
 

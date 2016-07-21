@@ -58,7 +58,6 @@ private:
 	void initLevel();
 	void loadMusic();
 	void checkInput();
-	bool isCameraInGameBoad();
 
 
 	//Event Functions
@@ -80,5 +79,7 @@ private:
 	
 	std::vector<Monster*> _monsters;
 	std::vector<Item*> _items;
+	
+	glm::vec2 _screenSize;
 };
 

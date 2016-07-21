@@ -59,6 +59,8 @@ void LevelOneScreen::onEntry(){
 	//Initialize Level
 	initLevel();
 
+	_screenSize = glm::vec2(_window->getScreenWidth(), _window->getScreenHeight());
+
 	//initialize camera
 	_camera.init(_window->getScreenWidth(), _window->getScreenHeight());
 	//For Debuging
@@ -124,7 +126,7 @@ void LevelOneScreen::update(){
 		_monsters[i]->collideWithItems(_items);
 	}
 
-	_camera.setPosition(_player->getPosition());
+	_camera.setPosition(_level->getCameraPos(_player->getPosition(),_screenSize));
 	_camera.update();
 	checkInput();
 }
@@ -144,7 +146,7 @@ void LevelOneScreen::draw(){
 
 	glm::mat4 projectionMatrix = _camera.getCameraMatrix();
 	GLint pUniform = _textureProgram.getUniformLocation("P");
-	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
+	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &(projectionMatrix[0][0]));
 
 	//Drawing level
 	_level->draw();
@@ -163,7 +165,7 @@ void LevelOneScreen::draw(){
 
 	//Drawing items
 	for (size_t i = 0; i < _items.size(); i++) {
-		if (_camera.isBoxInView(_items[i]->getPosition(), glm::vec2(_items[i]->getSize()))) {
+		if (_camera.isBoxInView(_items[i]->getPosition(), glm::vec2(((float)_items[i]->getSize())))) {
 			_items[i]->draw(_spriteBatch);
 		}
 	}
@@ -298,6 +300,7 @@ void LevelOneScreen::checkInput(){
 		_gui.onSDLEvent(evnt);
 	}
 }
+
 
 
 

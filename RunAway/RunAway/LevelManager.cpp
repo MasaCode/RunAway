@@ -520,3 +520,37 @@ const std::vector<std::string>& LevelManager::getLevelData() const{
 const char LevelManager::getSymbol(int x, int y){
 	return _levelData[y][x];
 }
+
+
+glm::vec2 LevelManager::getCameraPos(const glm::vec2& cameraPos, const glm::vec2& screenSize) {
+		glm::vec2 playerPos = cameraPos;
+		glm::vec2 returnPos = cameraPos;
+
+		glm::vec2 halfCameraDims = glm::vec2(screenSize.x/ 2.0f, screenSize.y / 2.0f);
+
+		glm::vec2 LeftDownDistance = playerPos;
+		glm::vec2 RightUpDistance = glm::vec2(getWidth()*(float)TILE_WIDTH, getHeight()*(float)TILE_WIDTH) - playerPos;
+
+		if ((LeftDownDistance.x - halfCameraDims.x) < 0.0f) {
+			//Its way too much going Left
+			returnPos.x = halfCameraDims.x;
+		}
+
+		if ((LeftDownDistance.y - halfCameraDims.y) < 0.0f) {
+			//Its way too much going Up
+			returnPos.y = halfCameraDims.y;
+		}
+
+		if ((RightUpDistance.x - halfCameraDims.x) < 0.0f) {
+			//Its way too much going Right
+			returnPos.x = getWidth()*(float)TILE_WIDTH - halfCameraDims.x;
+		}
+
+		if ((RightUpDistance.y - halfCameraDims.y) < 0.0f) {
+			//Its way too much going Up
+			returnPos.y = getHeight()*(float)TILE_WIDTH - halfCameraDims.y;
+		}
+
+
+	return returnPos;
+}

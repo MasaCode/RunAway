@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <MasaEngine/TilSheet.h>
 #include <MasaEngine/SpriteBatch.h>
+#include <MasaEngine/SpriteFont.h>
 #include <MasaEngine/ResourceManager.h>
 
 #include <iostream>
@@ -41,7 +42,6 @@ public:
 			// Monster died;
 			m_currentHitPoint = 0;
 			destroy();
-
 			return true;
 		}
 		return false;
@@ -89,11 +89,10 @@ public:
 		}
 
 		{//This is for HitPoint
-
 			m_hpBarSize = m_size.x;
 
 			glm::vec4 hpUVRect = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-			glm::vec4 hpBarDestRect = glm::vec4(m_position.x + m_substructDims.x, m_position.y + m_size.y + 10, m_hpBarSize, 3.0f);
+			glm::vec4 hpBarDestRect = glm::vec4(m_position.x + m_substructDims.x *2, m_position.y + m_size.y + 10, m_hpBarSize, 3.0f);
 
 			calculateHitPoint();
 
@@ -274,15 +273,9 @@ protected:
 		//std::cout << cornerPos.x << std::endl;
 		//std::cout << cornerPos.y << std::endl;
 
-		try{
-			if (levelData[(int)cornerPos.y][(int)cornerPos.x] != '.'){
-				collideTilePosition.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.0f));
-			}
+		if (levelData[(int)cornerPos.y][(int)cornerPos.x] != '.'){
+			collideTilePosition.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.0f));
 		}
-		catch (std::exception e){
-			std::cout << e.what() << std::endl;
-		}
-
 
 	}
 
@@ -366,7 +359,7 @@ protected:
 	MasaEngine::TileSheet m_attackMotion;
 	MasaEngine::GLTexture m_hpBarTexture;
 	MasaEngine::GLTexture m_hpTexture;
-
+	
 	glm::vec2 m_size = glm::vec2(0.0f);
 	glm::vec2 m_additionalDims = glm::vec2(0.0f);
 	glm::vec2 m_substructDims = glm::vec2(0.0f);

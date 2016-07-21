@@ -4,6 +4,7 @@
 
 #include <MasaEngine/InputManager.h>
 #include <MasaEngine/AudioEngine.h>
+#include <MasaEngine/SpriteFont.h>
 
 #include "Monster.h"
 
@@ -126,6 +127,9 @@ private:
 	bool _startSpeedEffect = false;
 
 	MasaEngine::SoundEffect _levelUp;
+	MasaEngine::SoundEffect _item;
+
+	MasaEngine::SpriteFont _font;
 
 };
 

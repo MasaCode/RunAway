@@ -15,7 +15,7 @@ Player::Player()
 
 Player::~Player()
 {
-	//Empty
+	_font.dispose();
 }
 
 
@@ -32,6 +32,10 @@ void Player::init(glm::vec2& position, float speed,MasaEngine::AudioEngine& audi
 	MasaEngine::GLTexture attackTexture = MasaEngine::ResourceManager::getTexture("Assets/player_AttackMotion.png");
 	_hpBar = MasaEngine::ResourceManager::getTexture("Assets/HitPoint/HitPoint.png");
 	_hitPoint = MasaEngine::ResourceManager::getTexture("Assets/HitPoint/HitPoint.png");
+
+
+	//Initialize sprite Font.
+	_font.init("Fonts/shangri-la.ttf", 32);
 
 	_texture.init(texture, glm::ivec2(9, 4));
 	_attackTexture.init(attackTexture, glm::ivec2(6, 5));
@@ -61,6 +65,7 @@ void Player::init(glm::vec2& position, float speed,MasaEngine::AudioEngine& audi
 	_needExperiencePoint = 30;
 
 	_levelUp = audioEngine.loadSoundEffect("Sound/LevelUp.ogg");
+	_item = audioEngine.loadSoundEffect("Sound/item.mp3");
 
 }
 
@@ -189,9 +194,14 @@ void Player::draw(MasaEngine::SpriteBatch& _spriteBatch){
 	}
 
 	{//This is for HitPoint
+	
+		//Text label for Level.
+		std::string text = "Lv. " + std::to_string(_level);
+		_font.draw(_spriteBatch,text.c_str(), glm::vec2(_position.x + 50, _position.y + _size.y + 30), glm::vec2(0.5f), 2.0f, MasaEngine::Color(0,0,0,255));
+
 
 		glm::vec4 hpUVRect = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-		glm::vec4 hpBarDestRect = glm::vec4(_position.x+65,_position.y+_size.y+35,_hpSize,5.0f);
+		glm::vec4 hpBarDestRect = glm::vec4(_position.x+65+10,_position.y+_size.y+35,_hpSize,5.0f);
 
 		calculateHitPoint();
 
@@ -293,7 +303,7 @@ void Player::getExperiencePoint(int exp){
 	if (_experiencePoint >= _needExperiencePoint){
 		_experiencePoint -= _needExperiencePoint;
 		_level++;
-		_needExperiencePoint = (_needExperiencePoint * (_level / 2));
+		_needExperiencePoint = (_needExperiencePoint * (_level));
 		_maxHitPoint = _level * _baseHitPoint;
 		_currentHitPoint = _maxHitPoint;
 		_currentAttackPoint = _level * _baseAttackPoint;
@@ -344,14 +354,9 @@ void Player::checkTilePosition(const std::vector<std::string>& levelData, std::v
 		//std::cout << "Human is created outside the world" << std::endl;
 		return;
 	}
-	try{
-		if (levelData[(int)cornerPos.y][(int)cornerPos.x] != '.'){
-			collideTilePosition.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.0f));
-		}
-	}
-	catch (std::exception e){
-		std::cout << e.what() << std::endl;
-		return;
+
+	if (levelData[(int)cornerPos.y][(int)cornerPos.x] != '.'){
+		collideTilePosition.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.0f));
 	}
 }
 
@@ -493,6 +498,7 @@ bool Player::collideWithItem(Item* item) {
 
 	if (xDepth + 5 > 0 && yDepth + 5 > 0 && _isLookingItem) {
 			int effects = item->getEffects();
+			_item.play();
 			switch (item->getItemType()) {
 			case ItemType::HP:
 				_currentHitPoint += effects;
