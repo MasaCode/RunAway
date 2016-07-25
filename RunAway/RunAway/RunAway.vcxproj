@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Fish.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LevelOneScreen.cpp" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Fish.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="Defenisions.h" />
     <ClInclude Include="Indicies.h" />

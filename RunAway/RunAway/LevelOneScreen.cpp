@@ -64,7 +64,7 @@ void LevelOneScreen::onEntry(){
 	//initialize camera
 	_camera.init(_window->getScreenWidth(), _window->getScreenHeight());
 	//For Debuging
-	//_camera.setScale(0.5f);
+	_camera.setScale(1.3);
 
 }
 
@@ -126,7 +126,7 @@ void LevelOneScreen::update(){
 		_monsters[i]->collideWithItems(_items);
 	}
 
-	_camera.setPosition(_level->getCameraPos(_player->getPosition(),_screenSize));
+	_camera.setPosition(_level->getCameraPos(_player->getPosition(),_screenSize, _camera.getScale()));
 	_camera.update();
 	checkInput();
 }
@@ -213,7 +213,7 @@ void LevelOneScreen::initLevel(){
 	std::uniform_int_distribution<int> randomItemKind(0, ITEM_KIND - 1);
 	glm::vec4 playerArea;
 
-	_level = std::make_unique<LevelManager>("Levels/level1.txt");
+	_level = std::make_unique<LevelManager>("Levels/Version1/level1.txt");
 	
 
 	// Objects Creation code goes here.
@@ -258,12 +258,12 @@ void LevelOneScreen::initLevel(){
 	int numItem = randomItemNum(randomEngine);
 	int j = 0;
 	while (j < numItem) {
-		int temp = randMonster(randomEngine);
+		int temp = randomItemKind(randomEngine);
 		int x = xPos(randomEngine);
 		int y = yPos(randomEngine);
 		if (_level->getSymbol(x, y) == '.') {
 			glm::vec2 pos = glm::vec2(x * TILE_WIDTH, y * TILE_WIDTH);
-			if (temp == 0) {
+			/*if (temp == 0) {
 				_items.push_back(new BigPotion);
 			}
 			else if (temp == 1) {
@@ -274,6 +274,26 @@ void LevelOneScreen::initLevel(){
 			}
 			else if (temp == 3) {
 				_items.push_back(new BadMeat);
+			}*/
+
+			switch (temp) {
+				case 0:
+					_items.push_back(new BigPotion);
+					break;
+				case 1:
+					_items.push_back(new SmallPotion);
+					break;
+				case 2:
+					_items.push_back(new GoodMeat);
+					break;
+				case 3:
+					_items.push_back(new BadMeat);
+					break;
+				case 4:
+					_items.push_back(new GoodFish);
+					break;
+				case 5:
+					_items.push_back(new BadFish);
 			}
 
 			_items.back()->init(pos);

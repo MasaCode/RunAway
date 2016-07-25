@@ -247,26 +247,26 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 		}
 
 		if (inputManager.isKeyDown(SDLK_LEFT)){
-			_position.x -= (_speed + _additionalSpeed)  * _multiplyer;
+			_position.x -= ((_speed)  * _multiplyer + _additionalSpeed);
 			_state = MovingState::LEFT;
 			_isStanding = false;
 			_playerState = PlayerState::NOMAL;
 		}
 		else if (inputManager.isKeyDown(SDLK_RIGHT)){
-			_position.x += (_speed + _additionalSpeed)  * _multiplyer;
+			_position.x += ((_speed)* _multiplyer + _additionalSpeed);
 			_state = MovingState::RIGHT;
 			_isStanding = false;
 			_playerState = PlayerState::NOMAL;
 		}
 		else if (inputManager.isKeyDown(SDLK_UP)){
-			_position.y += (_speed + _additionalSpeed) * _multiplyer;
+			_position.y += ((_speed)* _multiplyer + _additionalSpeed);
 			_state = MovingState::UP;
 			_isStanding = false;
 			_playerState = PlayerState::NOMAL;
 
 		}
 		else if (inputManager.isKeyDown(SDLK_DOWN)){
-			_position.y -= (_speed + _additionalSpeed) * _multiplyer;
+			_position.y -= ((_speed)* _multiplyer + _additionalSpeed);
 			_state = MovingState::DOWN;
 			_playerState = PlayerState::NOMAL;
 			_isStanding = false;
@@ -510,8 +510,8 @@ bool Player::collideWithItem(Item* item) {
 				//TODO : need to imprement
 				_effectiveAttackTime = item->getEffectiveTime();
 				_additionalAttack += effects;
-				if (_additionalAttack > _currentAttackPoint) {
-					_additionalAttack -= (_additionalAttack - _currentAttackPoint);
+				if (abs(_additionalAttack) > _currentAttackPoint && _additionalAttack < 0) {
+					_additionalAttack = -1 * (_currentAttackPoint);
 				}
 				_attackEffectsCount = 0;
 				_startAttackEffect = true;

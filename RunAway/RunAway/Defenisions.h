@@ -14,7 +14,7 @@ const int PLAYER_DIM_Y = 40;
 const int MAX_MOVEMENT = 40;
 
 const int MONSTER_KIND = 3;
-const int ITEM_KIND = 4;
+const int ITEM_KIND = 6;
 
 
 enum class MonsterState{
