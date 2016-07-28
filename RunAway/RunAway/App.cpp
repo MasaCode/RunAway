@@ -22,9 +22,11 @@ void App::onInit(){
 void App::addScreens(){
 	_mainMenuScreen = std::make_unique<MainMenuScreen>(&_window);
 	_levelOne = std::make_unique<LevelOneScreen>(&_window);
+	_levelTwo = std::make_unique<LevelTwoScreen>(&_window);
 
 	_screenList->addScreen(_mainMenuScreen.get());
 	_screenList->addScreen(_levelOne.get());
+	_screenList->addScreen(_levelTwo.get());
 
 	_screenList->setScreen(_mainMenuScreen->getScreenIndex());
 }

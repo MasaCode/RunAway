@@ -22,7 +22,7 @@ LevelOneScreen::~LevelOneScreen()
 }
 
 int LevelOneScreen::getNextScreenIndex() const{
-	return SCREEN_INDEX_NO_SCREEN;
+	return SCREEN_INDEX_LEVELTWO;
 }
 
 int LevelOneScreen::getPreviousScreenIndex() const{
@@ -34,7 +34,7 @@ void LevelOneScreen::build(){
 }
 
 void LevelOneScreen::destroy(){
-	_gui.destroy();
+
 }
 
 void LevelOneScreen::onEntry(){
@@ -77,10 +77,16 @@ void LevelOneScreen::onExit(){
 		delete _items[i];
 	}
 	_items.clear();
+
 	_gui.destroy();
 	_textureProgram.dispose();
 	_level.release();
 	_spriteFont.dispose();
+	_spriteBatch.dispose();
+	
+	_audioEngine.destroy();
+
+	_player->setReachedState();
 }
 
 void LevelOneScreen::update(){
@@ -129,6 +135,11 @@ void LevelOneScreen::update(){
 	_camera.setPosition(_level->getCameraPos(_player->getPosition(),_screenSize, _camera.getScale()));
 	_camera.update();
 	checkInput();
+
+	if (_player->isReachedGoal()) {
+		_currentState = MasaEngine::ScreenState::CHANGE_NEXT;
+	}
+
 }
 
 
@@ -136,7 +147,7 @@ void LevelOneScreen::update(){
 void LevelOneScreen::draw(){
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor((12.0/255.0), (126.0/255.0), (20.0/255.0), 1.0);
 
 	_textureProgram.use();
 
@@ -303,7 +314,7 @@ void LevelOneScreen::initLevel(){
 
 	//Initialize player.
 	_player = Player::getInstance();
-	_player->init(_level->getStartPlayerPosition(), PLAYER_SPEED,_audioEngine);
+	_player->init(_level->getStartPlayerPosition(), PLAYER_SPEED);
 
 }
 

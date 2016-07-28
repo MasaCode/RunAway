@@ -18,7 +18,7 @@ public:
 
 	static Player* getInstance();
 
-	void init(glm::vec2& position, float speed,MasaEngine::AudioEngine& audioEngine);
+	void init(glm::vec2& position, float speed);
 
 	glm::vec4 animation();
 
@@ -39,6 +39,10 @@ public:
 	bool isAttackingFast(){ return (_animTime > 4.0f && _playerState == PlayerState::ATTACKING); }
 
 	bool isPlayerDead(){ return _isDead; };
+
+	bool isReachedGoal() { return _isReachedGoal; }
+
+	void setReachedState() { _isReachedGoal = false; }
 	
 	bool isStartedDeathAnimation(){ return _startDeathAnimation; }
 
@@ -47,6 +51,8 @@ public:
 	/*glm::vec2 getPosition(){ return _position; }*/
 	glm::vec2 getPosition(){ return _position + glm::vec2(_substructWidth,_substructHeight); }
 	glm::vec2 getCutSize(){ return glm::vec2(_substructWidth, _substructHeight); }
+
+	void setPosition(const glm::vec2& pos) { _position = pos; }
 
 private:
 	//This is singleton design pattern.
@@ -81,6 +87,7 @@ private:
 	bool _startDeathAnimation = false;
 	bool _isDead = false;
 	bool _isLookingItem = false;
+	bool _isReachedGoal = false;
 	int _counter = 0;
 
 	MasaEngine::TileSheet _texture;
@@ -125,6 +132,8 @@ private:
 
 	bool _startAttackEffect = false;
 	bool _startSpeedEffect = false;
+
+	MasaEngine::AudioEngine _audioEngine;
 
 	MasaEngine::SoundEffect _levelUp;
 	MasaEngine::SoundEffect _item;

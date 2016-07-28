@@ -15,3 +15,12 @@ In the deps directory, you also need to make "include" and "lib" directorys.
 You put all of include dependences to include and put all of lib file to lib.
 
 If you don't want to do that, you need to change project property -> VC++ -> include directories and library directories.
+
+
+
+To play this game.
+1. Arrow key to move player.
+2. Right alt key to attack monsters.
+3. Left alt key to get the items on the field.
+4. Space key to speed up (movement and attack).
+5. Black hole to next stage.

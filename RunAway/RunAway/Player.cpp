@@ -27,7 +27,7 @@ Player* Player::getInstance(){
 	return _instance;
 }
 
-void Player::init(glm::vec2& position, float speed,MasaEngine::AudioEngine& audioEngine){
+void Player::init(glm::vec2& position, float speed){
 	MasaEngine::GLTexture texture = MasaEngine::ResourceManager::getTexture("Assets/player.png");
 	MasaEngine::GLTexture attackTexture = MasaEngine::ResourceManager::getTexture("Assets/player_AttackMotion.png");
 	_hpBar = MasaEngine::ResourceManager::getTexture("Assets/HitPoint/HitPoint.png");
@@ -64,8 +64,10 @@ void Player::init(glm::vec2& position, float speed,MasaEngine::AudioEngine& audi
 
 	_needExperiencePoint = 30;
 
-	_levelUp = audioEngine.loadSoundEffect("Sound/LevelUp.ogg");
-	_item = audioEngine.loadSoundEffect("Sound/item.mp3");
+
+	_audioEngine.init();
+	_levelUp = _audioEngine.loadSoundEffect("Sound/LevelUp.ogg");
+	_item = _audioEngine.loadSoundEffect("Sound/item.mp3");
 
 }
 
@@ -197,11 +199,11 @@ void Player::draw(MasaEngine::SpriteBatch& _spriteBatch){
 	
 		//Text label for Level.
 		std::string text = "Lv. " + std::to_string(_level);
-		_font.draw(_spriteBatch,text.c_str(), glm::vec2(_position.x + 50, _position.y + _size.y + 30), glm::vec2(0.5f), 2.0f, MasaEngine::Color(0,0,0,255));
+		_font.draw(_spriteBatch,text.c_str(), glm::vec2(_position.x + 45, _position.y + _size.y + 30), glm::vec2(0.4f), 2.0f, MasaEngine::Color(0,0,0,255));
 
 
 		glm::vec4 hpUVRect = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-		glm::vec4 hpBarDestRect = glm::vec4(_position.x+65+10,_position.y+_size.y+35,_hpSize,5.0f);
+		glm::vec4 hpBarDestRect = glm::vec4(_position.x+65,_position.y+_size.y+35,_hpSize,5.0f);
 
 		calculateHitPoint();
 
@@ -293,7 +295,12 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 
 	}
 
-	//TODO : i need to think about this.
+	//Check if the player reached gool
+	glm::vec2 centerPos = glm::vec2(floor((_position.x + _size.x / 2 + _substructWidth/2) / (float)TILE_WIDTH), floor((_position.y  + _size.y / 2 + _substructHeight/2) / (float)TILE_WIDTH));
+	if (levelData[centerPos.y][centerPos.x] == '#') {
+		_isReachedGoal = true;
+	}
+
 	// Do the collision check.
 	collideWithLevel(levelData);
 }
@@ -355,7 +362,7 @@ void Player::checkTilePosition(const std::vector<std::string>& levelData, std::v
 		return;
 	}
 
-	if (levelData[(int)cornerPos.y][(int)cornerPos.x] != '.'){
+	if (levelData[(int)cornerPos.y][(int)cornerPos.x] != '.' && levelData[(int)cornerPos.y][(int)cornerPos.x] != '#' ){
 		collideTilePosition.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.0f));
 	}
 }
@@ -570,6 +577,7 @@ bool Player::collideWithItem(Item* item) {
 
 	return false;
 }
+
 
 bool Player::Attack(const glm::vec2& distance){
 

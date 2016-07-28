@@ -4,6 +4,7 @@
 
 #include "MainMenuScreen.h"
 #include "LevelOneScreen.h"
+#include "LevelTwoScreen.h"
 
 
 class App : public MasaEngine::IMainGame
@@ -20,5 +21,6 @@ public:
 private:
 	std::unique_ptr<MainMenuScreen> _mainMenuScreen = nullptr;
 	std::unique_ptr<LevelOneScreen> _levelOne = nullptr;
+	std::unique_ptr<LevelTwoScreen> _levelTwo = nullptr;
 };
 

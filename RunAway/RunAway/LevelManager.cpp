@@ -28,8 +28,14 @@ LevelManager::LevelManager(const std::string& fileName)
 	std::getline(file, tmp); // Throw away the first line.
 	
 	//Reading the data from file
+	std::vector<std::string> tempLevelData;
 	while (std::getline(file, tmp)){//this getline returns 0 or null(if failed)
-		_levelData.push_back(tmp);
+		tempLevelData.push_back(tmp);
+	}
+
+	_levelData.resize(tempLevelData.size());
+	for (size_t i = 0; i < tempLevelData.size(); i++) {
+		_levelData[i] = tempLevelData[tempLevelData.size() - 1 - i];
 	}
 
 	_spriteBatch.init();
@@ -68,15 +74,18 @@ LevelManager::LevelManager(const std::string& fileName)
 				_startPlayerPosition.x = (float)(x * TILE_WIDTH);
 				_startPlayerPosition.y = (float)(y * TILE_WIDTH);
 				_levelData[y][x] = '.'; // So we dont collide with a @ (player)
-				_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
+				//_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
 				break;
 			case 'M':
 				_monsterStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
 				_levelData[y][x] = '.'; // So we dont collide with a Z (zombie)
-				_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
+				//_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
+				break;
+			case '#': // This is the to go to next level.
+				_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/nextStage.png").id, 0.0f, whiteColor);
 				break;
 			case '.':
-				_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
+				//_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
 				break;
 				default:
 					std::cout << "Unexpected symbol" << tile << " at (" << x << " , " << y << ")" << std::endl;
