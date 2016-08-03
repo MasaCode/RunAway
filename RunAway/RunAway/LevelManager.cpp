@@ -82,7 +82,9 @@ LevelManager::LevelManager(const std::string& fileName)
 				//_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
 				break;
 			case '#': // This is the to go to next level.
-				_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/nextStage.png").id, 0.0f, whiteColor);
+				//_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/nextStage.png").id, 0.0f, whiteColor);
+				_goalPosition.x = destRect.x;
+				_goalPosition.y = destRect.y;
 				break;
 			case '.':
 				//_spriteBatch.draw(destRect, uvRect, MasaEngine::ResourceManager::getTexture("Assets/Floor/GroundGrass.png").id, 0.0f, whiteColor);
@@ -516,6 +518,9 @@ int LevelManager::getNumMonsters() const{
 
 glm::vec2 LevelManager::getStartPlayerPosition() const {
 	return _startPlayerPosition;
+}
+glm::vec2 LevelManager::getGoalPosition() const {
+	return _goalPosition;
 }
 
 const std::vector<glm::vec2>& LevelManager::getMonstersStartPosition() const{

@@ -86,7 +86,7 @@ void LevelOneScreen::onExit(){
 	
 	_audioEngine.destroy();
 
-	_player->setReachedState();
+	_player->setReachedState(false);
 }
 
 void LevelOneScreen::update(){
@@ -136,8 +136,17 @@ void LevelOneScreen::update(){
 	_camera.update();
 	checkInput();
 
-	if (_player->isReachedGoal()) {
-		_currentState = MasaEngine::ScreenState::CHANGE_NEXT;
+	if (_needToDrawGoal) {
+		
+		glm::vec2 centerPos = _player->calculatePositionInGrid();
+		if (_level->getSymbol((int)centerPos.x, (int)centerPos.y) == '#') {
+			_player->setReachedState(true);
+			_currentState = MasaEngine::ScreenState::CHANGE_NEXT;
+		}
+	}
+
+	if ((int)_monsters.size() == 0) {
+		_needToDrawGoal = true;
 	}
 
 }
@@ -179,6 +188,12 @@ void LevelOneScreen::draw(){
 		if (_camera.isBoxInView(_items[i]->getPosition(), glm::vec2(((float)_items[i]->getSize())))) {
 			_items[i]->draw(_spriteBatch);
 		}
+	}
+
+	//Draw the black hole (goal) to next stage.
+	if (_needToDrawGoal) {
+		_spriteBatch.draw(glm::vec4(_level->getGoalPosition().x, _level->getGoalPosition().y, TILE_WIDTH, TILE_WIDTH), glm::uvec4(0.0f, 0.0f, 1.0f, 1.0f), 
+						  MasaEngine::ResourceManager::getTexture("Assets/Floor/nextStage.png").id, 0.0f, MasaEngine::Color(255, 255, 255, 255));
 	}
 
 	_spriteBatch.end();

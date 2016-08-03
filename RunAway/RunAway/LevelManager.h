@@ -23,6 +23,7 @@ public:
 	int getHeight();
 	int getNumMonsters() const ;
 	glm::vec2 getStartPlayerPosition() const;
+	glm::vec2 getGoalPosition() const;
 	const std::vector<glm::vec2>& getMonstersStartPosition() const;
 	const std::vector<std::string>& getLevelData() const;
 	const char getSymbol(int x, int y);
@@ -36,6 +37,7 @@ private:
 	MasaEngine::TileSheet _texture;
 
 	glm::vec2 _startPlayerPosition;
+	glm::vec2 _goalPosition;
 	std::vector<glm::vec2> _monsterStartPositions;
 
 	int _width = 0;

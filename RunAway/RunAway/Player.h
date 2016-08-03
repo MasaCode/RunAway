@@ -26,6 +26,8 @@ public:
 
 	void update(MasaEngine::InputManager& inputManager, const std::vector<std::string>& levelData);
 
+	glm::vec2 calculatePositionInGrid() const;
+
 	void Recreate(const glm::vec2& pos);
 
 	bool takeDamage(int damage);
@@ -42,17 +44,18 @@ public:
 
 	bool isReachedGoal() { return _isReachedGoal; }
 
-	void setReachedState() { _isReachedGoal = false; }
 	
 	bool isStartedDeathAnimation(){ return _startDeathAnimation; }
 
 	void getExperiencePoint(int exp);
 
 	/*glm::vec2 getPosition(){ return _position; }*/
-	glm::vec2 getPosition(){ return _position + glm::vec2(_substructWidth,_substructHeight); }
-	glm::vec2 getCutSize(){ return glm::vec2(_substructWidth, _substructHeight); }
+	glm::vec2 getPosition() const { return _position + glm::vec2(_substructWidth,_substructHeight); }
+	glm::vec2 getCutSize() const { return glm::vec2(_substructWidth, _substructHeight); }
+	glm::vec2 getSize() const { return _size; }
 
 	void setPosition(const glm::vec2& pos) { _position = pos; }
+	void setReachedState(bool isReached) { _isReachedGoal = isReached; }
 
 private:
 	//This is singleton design pattern.

@@ -295,14 +295,19 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 
 	}
 
-	//Check if the player reached gool
+	/*Check if the player reached gool
 	glm::vec2 centerPos = glm::vec2(floor((_position.x + _size.x / 2 + _substructWidth/2) / (float)TILE_WIDTH), floor((_position.y  + _size.y / 2 + _substructHeight/2) / (float)TILE_WIDTH));
 	if (levelData[centerPos.y][centerPos.x] == '#') {
 		_isReachedGoal = true;
-	}
+	}*/
 
 	// Do the collision check.
 	collideWithLevel(levelData);
+}
+
+glm::vec2 Player::calculatePositionInGrid() const {
+	glm::vec2 centerPos = glm::vec2(floor((_position.x + _size.x / 2 + _substructWidth / 2) / (float)TILE_WIDTH), floor((_position.y + _size.y / 2 + _substructHeight / 2) / (float)TILE_WIDTH));
+	return centerPos;
 }
 
 void Player::getExperiencePoint(int exp){

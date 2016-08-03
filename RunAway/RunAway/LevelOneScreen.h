@@ -82,5 +82,7 @@ private:
 	std::vector<Item*> _items;
 	
 	glm::vec2 _screenSize;
+
+	bool _needToDrawGoal = false;
 };
 
