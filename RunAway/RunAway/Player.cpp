@@ -67,7 +67,8 @@ void Player::init(glm::vec2& position, float speed){
 
 	_audioEngine.init();
 	_levelUp = _audioEngine.loadSoundEffect("Sound/LevelUp.ogg");
-	_item = _audioEngine.loadSoundEffect("Sound/item.mp3");
+	_item = _audioEngine.loadSoundEffect("Sound/item.ogg");
+	_sword = _audioEngine.loadSoundEffect("Sound/sword.ogg");
 
 }
 
@@ -87,6 +88,7 @@ glm::vec4 Player::animation(){
 			_numTiles = 9;
 			_finishAttacking = true;
 		}
+		
 
 
 		if (_playerState == PlayerState::NOMAL){
@@ -281,6 +283,10 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 		if (inputManager.isKeyDown(SDLK_RALT)){
 			_playerState = PlayerState::ATTACKING;
 			_animTime = 0.0f;
+			if (_finishAttacking) {
+				_sword.play();
+				_finishAttacking = false;
+			}
 		}
 
 		

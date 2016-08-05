@@ -73,6 +73,7 @@ private:
 	MasaEngine::GLTexture _texture;
 	MasaEngine::GL_SL_Program _textureProgram;
 	MasaEngine::AudioEngine _audioEngine;
+	MasaEngine::Music _bgm;
 
 	std::unique_ptr<LevelManager> _level;
 

@@ -12,6 +12,7 @@ namespace MasaEngine{
 				fatalError("Mix_PlayChannel error : " + std::string(Mix_GetError()));
 			}
 		}
+		Mix_VolumeChunk(_chunk, MIX_MAX_VOLUME);
 	}
 
 
@@ -33,6 +34,10 @@ namespace MasaEngine{
 
 	void Music::resume(){
 		Mix_ResumeMusic();
+	}
+
+	void Music::setVolume(int volume) {
+		Mix_VolumeMusic(volume);
 	}
 
 ///////////////////////////////////////////////////// AudioEngine class /////////////////////////////////////////////////////

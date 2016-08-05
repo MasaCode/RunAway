@@ -32,6 +32,7 @@ namespace MasaEngine{
 			void pause();
 			void stop();
 			void resume();
+			void setVolume(int volume = 128);
 
 		private:
 			Mix_Music* _music = nullptr;

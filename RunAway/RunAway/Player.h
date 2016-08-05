@@ -86,7 +86,7 @@ private:
 	const int MAX_RUN_COUNT = 30;
 	int _runCount = 0;
 	bool _couldRun = true;
-	bool _finishAttacking = false;
+	bool _finishAttacking = true;
 	bool _startDeathAnimation = false;
 	bool _isDead = false;
 	bool _isLookingItem = false;
@@ -140,6 +140,7 @@ private:
 
 	MasaEngine::SoundEffect _levelUp;
 	MasaEngine::SoundEffect _item;
+	MasaEngine::SoundEffect _sword;
 
 	MasaEngine::SpriteFont _font;
 
