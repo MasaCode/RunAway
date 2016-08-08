@@ -20,7 +20,7 @@ If you don't want to do that, you need to change project property -> VC++ -> inc
 
 To play this game.
 1. Arrow key to move player.
-2. Right alt key to attack monsters.
-3. Left alt key to get the items on the field.
+2. Left click to attack monsters.
+3. Right click to get the items on the field.
 4. Space key to speed up (movement and attack).
 5. Black hole to next stage.
