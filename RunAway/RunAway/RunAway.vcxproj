@@ -152,7 +152,6 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Orga.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Werewolf.h" />
     <ClInclude Include="Wolf.h" />
   </ItemGroup>

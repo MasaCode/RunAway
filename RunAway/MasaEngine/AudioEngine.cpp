@@ -6,13 +6,13 @@ namespace MasaEngine{
 
 ///////////////////////////////////////////////////// SoundEffect class /////////////////////////////////////////////////////
 	
-	void SoundEffect::play(int loops){
+	void SoundEffect::play(int loops, int volume){
 		if (Mix_PlayChannel(-1, _chunk, loops) == -1){
 			if (Mix_PlayChannel(0,_chunk,loops ) == -1){
 				fatalError("Mix_PlayChannel error : " + std::string(Mix_GetError()));
 			}
 		}
-		Mix_VolumeChunk(_chunk, MIX_MAX_VOLUME);
+		Mix_VolumeChunk(_chunk, volume);
 	}
 
 

@@ -8,8 +8,6 @@
 
 #include "Monster.h"
 
-
-
 class Player
 {
 public:

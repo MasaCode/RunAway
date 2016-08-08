@@ -256,35 +256,35 @@ void LevelOneScreen::initLevel(){
 	int count = 2;
 	int numMonster = _level->getNumMonsters();
 	_monsters.reserve(numMonster);
-	//while(i < numMonster){
-	//	int temp = randMonster(randomEngine);
-	//	int x = xPos(randomEngine);
-	//	int y = yPos(randomEngine);
-	//	int movement = ((randomMovement(randomEngine) * count) % MAX_MOVEMENT + count/2);
-	//		if (_level->getSymbol(x, y) == '.'){
-	//			glm::vec2 pos = glm::vec2(x * TILE_WIDTH, y * TILE_WIDTH);
-	//			if (temp == 0){
-	//				_monsters.push_back(new Werewolf);
-	//				_monsters.back()->init(4, 2, pos, 10);
-	//			}
-	//			else if (temp == 1){
-	//				_monsters.push_back(new Orga);
-	//				_monsters.back()->init(3, 3, pos, 30);
-	//			}
-	//			else{
-	//				_monsters.push_back(new Wolf);
-	//				_monsters.back()->init(2, 2, pos, movement);
-	//				//std::cout << "Movement : " <<  movement << std::endl;
-	//			}
+	while(i < numMonster){
+		int temp = randMonster(randomEngine);
+		int x = xPos(randomEngine);
+		int y = yPos(randomEngine);
+		int movement = ((randomMovement(randomEngine) * count) % MAX_MOVEMENT + count/2);
+			if (_level->getSymbol(x, y) == '.'){
+				glm::vec2 pos = glm::vec2(x * TILE_WIDTH, y * TILE_WIDTH);
+				if (temp == 0){
+					_monsters.push_back(new Werewolf);
+					_monsters.back()->init(4, 2, pos, 10);
+				}
+				else if (temp == 1){
+					_monsters.push_back(new Orga);
+					_monsters.back()->init(3, 3, pos, 30);
+				}
+				else{
+					_monsters.push_back(new Wolf);
+					_monsters.back()->init(2, 2, pos, movement);
+					//std::cout << "Movement : " <<  movement << std::endl;
+				}
 
-	//			i++;
-	//		}
-	//	count++;
-	//}
+				i++;
+			}
+		count++;
+	}
 
-
-	_monsters.push_back(new Wolf);
-	_monsters.back()->init(3, 3, glm::vec2(500, 1000));
+	//Testing
+	/*_monsters.push_back(new Wolf);
+	_monsters.back()->init(3, 3, glm::vec2(500, 1000));*/
 
 	int numItem = randomItemNum(randomEngine);
 	int j = 0;

@@ -14,7 +14,7 @@ namespace MasaEngine{
 			//Plays the effect file
 			//@param loops : If loops == -1, loop forever,
 			// otherwise play it loops+1 times
-			void play(int loops = 0);
+			void play(int loops = 0, int volume = MIX_MAX_VOLUME);
 
 		private:
 			Mix_Chunk* _chunk = nullptr;

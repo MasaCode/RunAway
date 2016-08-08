@@ -1,5 +1,6 @@
 #include "Player.h"
 
+
 #include "Item.h"
 
 #include <SDL/SDL.h>
@@ -280,17 +281,17 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 			_isStanding = true;
 		}
 
-		if (inputManager.isKeyDown(SDLK_RALT)){
+		if (inputManager.isKeyDown(SDL_BUTTON_LEFT)){
 			_playerState = PlayerState::ATTACKING;
 			_animTime = 0.0f;
 			if (_finishAttacking) {
-				_sword.play();
+				_sword.play(0,60);
 				_finishAttacking = false;
 			}
 		}
 
 		
-		if (inputManager.isKeyDown(SDLK_LALT)) {
+		if (inputManager.isKeyDown(SDL_BUTTON_RIGHT)) {
 			_isLookingItem = true;
 			//std::cout << "Pressed." << std::endl;
 		}
@@ -516,7 +517,7 @@ bool Player::collideWithItem(Item* item) {
 
 	if (xDepth + 5 > 0 && yDepth + 5 > 0 && _isLookingItem) {
 			int effects = item->getEffects();
-			_item.play();
+			_item.play(0,20);
 			switch (item->getItemType()) {
 			case ItemType::HP:
 				_currentHitPoint += effects;
