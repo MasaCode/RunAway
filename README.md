@@ -1,5 +1,5 @@
 # RunAway
-Easy 2D game and game Engine created with OpenGL
+##Easy 2D game and game Engine created with OpenGL
 
 To use this project, You need to download following stuff:
 
