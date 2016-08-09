@@ -22,13 +22,13 @@ public:
 
 	void draw(MasaEngine::SpriteBatch& _spriteBatch) {
 		glm::vec4 uvRect = glm::uvec4(0.0f,0.0f,1.0f,1.0f);
-		glm::vec4 destRect = glm::vec4(i_position.x, i_position.y, i_size, i_size);
+		glm::vec4 destRect = glm::vec4(i_position.x, i_position.y, i_size.x, i_size.y);
 
 		if (i_startDisappear) {
 			i_alpha -= 20;
 			if (i_alpha <= 0) {
 				i_alpha = 0;
-				i_isTaken = true;
+				i_isDisappeared = true;
 			}
 		}
 
@@ -37,23 +37,41 @@ public:
 		_spriteBatch.draw(destRect, uvRect,i_texture.id, 0.0f, i_color);
 	}
 
+	
+	glm::vec2 getSize() { return i_size; }
+	glm::vec2& getPosition() { return i_position; }
+	bool isDisappeared() { return i_isDisappeared; }
+	bool isTaken() { return i_startDisappear; }
+	ItemInfo getItemInfo() { return i_info; }
+
+	//For Items
 	int getEffects() { return i_effects; }
 	int getEffectiveTime() { return i_effectiveTime; }
-	int getSize() { return i_size; }
 	ItemType getItemType() { return i_type; }
-	glm::vec2& getPosition() { return i_position; }
-	bool isTaken() { return i_isTaken; }
+
+	//For Weapons
+	std::string getAttackPath() { return i_attackTexturePath; }
+	std::string getSoundPath() { return i_soundPath; }
+	int getAttackPoint() { return i_attack; }
 
 protected:
-	int i_size = ITEM_SIZE;
+	glm::vec2 i_size = glm::vec2(ITEM_SIZE);
 	int i_alpha = 255;
-	int i_effects = 0;
-	int i_effectiveTime = 0;
-	bool i_isTaken = false;
+	bool i_isDisappeared = false;
 	bool i_startDisappear = false;
-	ItemType i_type = ItemType::HP;
+	ItemInfo i_info = ItemInfo::ITEM;
 	glm::vec2 i_position = glm::vec2(0.0f);
 	MasaEngine::GLTexture i_texture;
 	MasaEngine::Color i_color = MasaEngine::Color(255, 255, 255, 255);
+
+	//For Item
+	int i_effects = 0;
+	int i_effectiveTime = 0;
+	ItemType i_type = ItemType::HP;
+
+	//For Weapon
+	std::string i_attackTexturePath;
+	std::string i_soundPath;
+	int i_attack = 0;
 
 };

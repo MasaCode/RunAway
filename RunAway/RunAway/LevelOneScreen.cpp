@@ -90,51 +90,14 @@ void LevelOneScreen::onExit(){
 }
 
 void LevelOneScreen::update(){
-	_player->update(_game->inputManager, _level->getLevelData());
-	if (_player->isPlayerDead()){
-		_player->Recreate(_level->getStartPlayerPosition());
-	}
+	
+	checkInput();
 
-
-	//Check if monster died or not
-	for (size_t i = 0; i < _monsters.size(); i++){
-		if (_monsters[i]->isDead()){
-			delete _monsters[i];
-			_monsters[i] = _monsters.back();
-			_monsters.pop_back();
-			i--;
-		}
-	}
-
-	//Check if item is taken or not
-	for (size_t i = 0; i < _items.size(); i++) {
-		if (_items[i]->isTaken()) {
-			delete _items[i];
-			_items[i] = _items.back();
-			_items.pop_back();
-			i--;
-		}
-	}
-
-	//Collision with monster and plyer
-	_player->collideWithMonsters(_monsters);
-	_player->collideWithItems(_items);
-
-
-	//updating all of monsters movement
-	for (unsigned int i = 0; i < _monsters.size(); i++){
-		_monsters[i]->update(_level->getLevelData(), _player->getPosition());
-	}
-
-	//Collision update
-	for (size_t i = 0; i < _monsters.size(); i++){
-		_monsters[i]->collideWithMonsters(_monsters, i);
-		_monsters[i]->collideWithItems(_items);
-	}
+	//Update the player and monsters.
+	updateObject();
 
 	_camera.setPosition(_level->getCameraPos(_player->getPosition(),_screenSize, _camera.getScale()));
 	_camera.update();
-	checkInput();
 
 	if (_needToDrawGoal) {
 		
@@ -187,7 +150,7 @@ void LevelOneScreen::draw(){
 
 	//Drawing items
 	for (size_t i = 0; i < _items.size(); i++) {
-		if (_camera.isBoxInView(_items[i]->getPosition(), glm::vec2(((float)_items[i]->getSize())))) {
+		if (_camera.isBoxInView(_items[i]->getPosition(), _items[i]->getSize())) {
 			_items[i]->draw(_spriteBatch);
 		}
 	}
@@ -294,19 +257,7 @@ void LevelOneScreen::initLevel(){
 		int y = yPos(randomEngine);
 		if (_level->getSymbol(x, y) == '.') {
 			glm::vec2 pos = glm::vec2(x * TILE_WIDTH, y * TILE_WIDTH);
-			/*if (temp == 0) {
-				_items.push_back(new BigPotion);
-			}
-			else if (temp == 1) {
-				_items.push_back(new SmallPotion);
-			}
-			else if (temp == 2) {
-				_items.push_back(new GoodMeat);
-			}
-			else if (temp == 3) {
-				_items.push_back(new BadMeat);
-			}*/
-
+	
 			switch (temp) {
 				case 0:
 					_items.push_back(new BigPotion);
@@ -336,6 +287,12 @@ void LevelOneScreen::initLevel(){
 	_player = Player::getInstance();
 	_player->init(_level->getStartPlayerPosition(), PLAYER_SPEED);
 
+
+	//Testing for weapon.
+	_items.push_back(new Sword);
+	_items.back()->init(glm::vec2(200, 1000));
+
+
 }
 
 void LevelOneScreen::loadMusic(){
@@ -347,12 +304,58 @@ void LevelOneScreen::loadMusic(){
 
 void LevelOneScreen::checkInput(){
 	SDL_Event evnt;
+
+	_game->inputManager.update();
+
 	while (SDL_PollEvent(&evnt)){
 		_game->onSDLEvent(evnt);
 		_gui.onSDLEvent(evnt);
 	}
 }
 
+void LevelOneScreen::updateObject() {
+	_player->update(_game->inputManager, _level->getLevelData());
+	if (_player->isPlayerDead()) {
+		_player->Recreate(_level->getStartPlayerPosition());
+	}
+
+
+	//Check if monster died or not
+	for (size_t i = 0; i < _monsters.size(); i++) {
+		if (_monsters[i]->isDead()) {
+			delete _monsters[i];
+			_monsters[i] = _monsters.back();
+			_monsters.pop_back();
+			i--;
+		}
+	}
+
+	//Check if item is taken or not
+	for (size_t i = 0; i < _items.size(); i++) {
+		if (_items[i]->isDisappeared()) {
+			delete _items[i];
+			_items[i] = _items.back();
+			_items.pop_back();
+			i--;
+		}
+	}
+
+	//Collision with monster and plyer
+	_player->collideWithMonsters(_monsters);
+	_player->collideWithItems(_items);
+
+
+	//updating all of monsters movement
+	for (unsigned int i = 0; i < _monsters.size(); i++) {
+		_monsters[i]->update(_level->getLevelData(), _player->getPosition());
+	}
+
+	//Collision update
+	for (size_t i = 0; i < _monsters.size(); i++) {
+		_monsters[i]->collideWithMonsters(_monsters, i);
+		_monsters[i]->collideWithItems(_items);
+	}
+}
 
 
 

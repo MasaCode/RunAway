@@ -29,8 +29,7 @@ Player* Player::getInstance(){
 }
 
 void Player::init(glm::vec2& position, float speed){
-	MasaEngine::GLTexture texture = MasaEngine::ResourceManager::getTexture("Assets/player.png");
-	MasaEngine::GLTexture attackTexture = MasaEngine::ResourceManager::getTexture("Assets/player_AttackMotion.png");
+	MasaEngine::GLTexture texture = MasaEngine::ResourceManager::getTexture("Assets/Player/player.png");
 	_hpBar = MasaEngine::ResourceManager::getTexture("Assets/HitPoint/HitPoint.png");
 	_hitPoint = MasaEngine::ResourceManager::getTexture("Assets/HitPoint/HitPoint.png");
 
@@ -39,12 +38,23 @@ void Player::init(glm::vec2& position, float speed){
 	_font.init("Fonts/shangri-la.ttf", 32);
 
 	_texture.init(texture, glm::ivec2(9, 4));
-	_attackTexture.init(attackTexture, glm::ivec2(6, 5));
+	
+	_audioEngine.init();
+	_levelUp = _audioEngine.loadSoundEffect("Sound/LevelUp.ogg");
+	_item = _audioEngine.loadSoundEffect("Sound/item.ogg");
+
+
+	//Intialize default attack motion.
+	/*_weapon.resize(1);
+	_weapon[0].attack = 0;
+	_weapon[0].attackTexture.init(MasaEngine::ResourceManager::getTexture("Assets/Player/player_nomal.png"), glm::ivec2(6, 5));
+	_weapon[0].sound = _audioEngine.loadSoundEffect("Sound/sword.ogg");*/
+	_weapon.push_back(WeaponDesc(MasaEngine::ResourceManager::getTexture("Assets/Player/player_nomal.png"), glm::ivec2(6, 5), _audioEngine.loadSoundEffect("Sound/sword.ogg"), 0));
+
 
 	_position = position;
 	_speed = speed;
 	_color = MasaEngine::Color(255, 255, 255, 255);
-	_state = MovingState::DOWN;
 
 	_hpPercentage = 1.0f;
 	_hpSize = 30;
@@ -66,10 +76,7 @@ void Player::init(glm::vec2& position, float speed){
 	_needExperiencePoint = 30;
 
 
-	_audioEngine.init();
-	_levelUp = _audioEngine.loadSoundEffect("Sound/LevelUp.ogg");
-	_item = _audioEngine.loadSoundEffect("Sound/item.ogg");
-	_sword = _audioEngine.loadSoundEffect("Sound/sword.ogg");
+	
 
 }
 
@@ -126,10 +133,10 @@ glm::vec4 Player::animation(){
 				tileIndex = 6;
 				break;
 			case MovingState::RIGHT:
-				tileIndex = 12;
+				tileIndex = 0;
 				break;
 			case MovingState::LEFT:
-				tileIndex = 0;
+				tileIndex = 12;
 				break;
 			}
 
@@ -148,7 +155,7 @@ glm::vec4 Player::animation(){
 		}
 		else{
 			//Get the uv coordinates from the tile index
-			uvRect = _attackTexture.getUVs(tileIndex);
+			uvRect = _weapon[_currentWeaponIndex].attackTexture.getUVs(tileIndex);
 		}
 
 	}
@@ -161,7 +168,6 @@ glm::vec4 Player::animation(){
 			_playerAlpha -= 5;
 			if (_playerAlpha < 0){
 				_playerAlpha = 0;
-				//exit(22);
 				_isDead = true;
 			}
 		}
@@ -169,7 +175,8 @@ glm::vec4 Player::animation(){
 			tileIndex = tileIndex + (int)_animTime % _numTiles;
 		}
 
-		uvRect = _attackTexture.getUVs(tileIndex);
+		
+		uvRect = _weapon[_currentWeaponIndex].attackTexture.getUVs(tileIndex);
 	}
 
 
@@ -194,7 +201,8 @@ void Player::draw(MasaEngine::SpriteBatch& _spriteBatch){
 			_spriteBatch.draw(destRect, uvRect, _texture.texture.id, 1.0f, _color);
 		}
 		else{
-			_spriteBatch.draw(destRect, uvRect, _attackTexture.texture.id, 0.0f, _color);
+			
+			_spriteBatch.draw(destRect, uvRect, _weapon[_currentWeaponIndex].attackTexture.texture.id, 0.0f, _color);
 		}
 	}
 
@@ -285,7 +293,7 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 			_playerState = PlayerState::ATTACKING;
 			_animTime = 0.0f;
 			if (_finishAttacking) {
-				_sword.play(0,60);
+				_weapon[_currentWeaponIndex].sound.play(0, 60);
 				_finishAttacking = false;
 			}
 		}
@@ -293,20 +301,23 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 		
 		if (inputManager.isKeyDown(SDL_BUTTON_RIGHT)) {
 			_isLookingItem = true;
-			//std::cout << "Pressed." << std::endl;
 		}
 		else {
 			_isLookingItem = false;
 		}
 
+		if (inputManager.isKeyPressed(SDLK_1)) {
+
+			_currentWeaponIndex++;
+			if (_currentWeaponIndex >= (int)_weapon.size()) {
+				//std::cout << _weapon.size() << std::endl;
+				_currentWeaponIndex = 0;
+			}
+
+		}
+
 
 	}
-
-	/*Check if the player reached gool
-	glm::vec2 centerPos = glm::vec2(floor((_position.x + _size.x / 2 + _substructWidth/2) / (float)TILE_WIDTH), floor((_position.y  + _size.y / 2 + _substructHeight/2) / (float)TILE_WIDTH));
-	if (levelData[centerPos.y][centerPos.x] == '#') {
-		_isReachedGoal = true;
-	}*/
 
 	// Do the collision check.
 	collideWithLevel(levelData);
@@ -438,9 +449,9 @@ bool Player::collideWithMonster(Monster* monster){
 	float yDepth = MIN_DISTANCE_Y - abs(distVec.y);
 
 	if (!monster->isStartedDeathAnimation()){
-		if (_playerState == PlayerState::ATTACKING && _animTime > 2.0f){
+		if (_playerState == PlayerState::ATTACKING && _animTime > 2.0f && (_currentWeaponIndex != 0)){
 			if (Attack(distVec) && !monster->isAttacked()){
-				monster->takeDamage(_currentAttackPoint + _additionalAttack);
+				monster->takeDamage((_currentAttackPoint + _additionalAttack) + _weapon[_currentWeaponIndex].attack);
 				monster->setAttackState(true);
 			}
 		}
@@ -502,8 +513,8 @@ bool Player::collideWithMonster(Monster* monster){
 
 bool Player::collideWithItem(Item* item) {
 	//If it's too much, just delete last part.
-	const float MIN_DISTANCE_X = (_size.x / 2.0f) + (item->getSize() / 2.0f) - 5.0f;
-	const float MIN_DISTANCE_Y = (_size.y / 2.0f) + (item->getSize() / 2.0f) - 3.0f;
+	const float MIN_DISTANCE_X = (_size.x / 2.0f) + (item->getSize().x / 2.0f) - 5.0f;
+	const float MIN_DISTANCE_Y = (_size.y / 2.0f) + (item->getSize().y / 2.0f) - 3.0f;
 
 	glm::vec2 centerPosA = _position + glm::vec2(_size / 2.0f) + glm::vec2(_substructWidth,_substructHeight);
 	glm::vec2 centerPosB = item->getPosition() + glm::vec2(item->getSize() / 2.0f);
@@ -515,35 +526,41 @@ bool Player::collideWithItem(Item* item) {
 	float xDepth = MIN_DISTANCE.x - abs(distVec.x);
 	float yDepth = MIN_DISTANCE.y - abs(distVec.y);
 
-	if (xDepth + 5 > 0 && yDepth + 5 > 0 && _isLookingItem) {
+	if (xDepth + 5 > 0 && yDepth + 5 > 0 && _isLookingItem && !item->isTaken()) {
+		_item.play(0, 20);
+		if (item->getItemInfo() == ItemInfo::ITEM) {
+			//For Items
 			int effects = item->getEffects();
-			_item.play(0,20);
 			switch (item->getItemType()) {
-			case ItemType::HP:
-				_currentHitPoint += effects;
-				if (_currentHitPoint > _maxHitPoint) {
-					_currentHitPoint = _maxHitPoint;
-				}
-				break;
-			case ItemType::Attack:
-				//TODO : need to imprement
-				_effectiveAttackTime = item->getEffectiveTime();
-				_additionalAttack += effects;
-				if (abs(_additionalAttack) > _currentAttackPoint && _additionalAttack < 0) {
-					_additionalAttack = -1 * (_currentAttackPoint);
-				}
-				_attackEffectsCount = 0;
-				_startAttackEffect = true;
-				break;
-			case ItemType::Speed:
-				//TODO : need to imprement.
-				_effectiveSpeedTime = item->getEffectiveTime();
-				_additionalSpeed += effects;
-				_speedEffectsCount = 0;
-				_startSpeedEffect = true;
-				break;
+				case ItemType::HP:
+					_currentHitPoint += effects;
+					if (_currentHitPoint > _maxHitPoint) {
+						_currentHitPoint = _maxHitPoint;
+					}
+					break;
+				case ItemType::Attack:
+					_effectiveAttackTime = item->getEffectiveTime();
+					_additionalAttack += effects;
+					if (abs(_additionalAttack) > _currentAttackPoint && _additionalAttack < 0) {
+						_additionalAttack = -1 * (_currentAttackPoint);
+					}
+					_attackEffectsCount = 0;
+					_startAttackEffect = true;
+					break;
+				case ItemType::Speed:
+					_effectiveSpeedTime = item->getEffectiveTime();
+					_additionalSpeed += effects;
+					_speedEffectsCount = 0;
+					_startSpeedEffect = true;
+					break;
 			}
+		}
+		else {
+			//For Weapons.
+			_weapon.push_back(WeaponDesc(MasaEngine::ResourceManager::getTexture(item->getAttackPath()), glm::ivec2(6, 5), _audioEngine.loadSoundEffect(item->getSoundPath()), item->getAttackPoint()));
 
+
+		}
 			item->destroy();
 	}
 

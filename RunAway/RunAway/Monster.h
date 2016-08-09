@@ -223,8 +223,8 @@ protected:
 	bool collideWithItem(Item* item) {
 
 		//If it's too much, just delete last part.
-		const float MIN_DISTANCE_X = (m_size.x / 2.0f) + (item->getSize()/ 2.0f) - 5.0f;
-		const float MIN_DISTANCE_Y = (m_size.y / 2.0f) + (item->getSize() / 2.0f) - 3.0f;
+		const float MIN_DISTANCE_X = (m_size.x / 2.0f) + (item->getSize().x/ 2.0f) - 5.0f;
+		const float MIN_DISTANCE_Y = (m_size.y / 2.0f) + (item->getSize().y / 2.0f) - 3.0f;
 
 		glm::vec2 centerPosA = m_position + glm::vec2(m_size / 2.0f) + m_substructDims;
 		glm::vec2 centerPosB = item->getPosition() + glm::vec2(item->getSize() / 2.0f);

@@ -1,8 +1,47 @@
-﻿  Player.cpp
+﻿  App.cpp
+C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(41): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'CEGUI::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(40): note: see declaration of 'CEGUI::Exception'
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Fish.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  LevelOneScreen.cpp
+C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(41): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'CEGUI::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(40): note: see declaration of 'CEGUI::Exception'
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+LevelOneScreen.cpp(67): warning C4305: 'argument': truncation from 'double' to 'float'
+LevelOneScreen.cpp(124): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  LevelTwoScreen.cpp
+C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(41): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'CEGUI::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(40): note: see declaration of 'CEGUI::Exception'
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+LevelTwoScreen.cpp(62): warning C4305: 'argument': truncation from 'double' to 'float'
+LevelTwoScreen.cpp(126): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  Meat.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Orga.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Player.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Potion.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Sword.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Werewolf.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  Wolf.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+  main.cpp
+C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(41): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'CEGUI::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\deps\include\CEGUI/Exceptions.h(40): note: see declaration of 'CEGUI::Exception'
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
   Generating code
-  1 of 2500 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+  6 of 2581 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    28 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.exe
   RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.pdb (Full PDB)

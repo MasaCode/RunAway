@@ -29,6 +29,9 @@
 #include "Meat.h"
 #include "Fish.h"
 
+//Weapons
+#include "Sword.h"
+
 
 
 class LevelOneScreen : public MasaEngine::IGameScreen
@@ -59,6 +62,7 @@ private:
 	void initLevel();
 	void loadMusic();
 	void checkInput();
+	void updateObject();
 
 
 	//Event Functions

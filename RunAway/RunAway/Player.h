@@ -36,13 +36,12 @@ public:
 
 	void collideWithItems(std::vector<Item*>& items);
 
-	bool isAttackingFast(){ return (_animTime > 4.0f && _playerState == PlayerState::ATTACKING); }
+	bool isAttackingFast(){ return (_animTime > 4.0f && _playerState == PlayerState::ATTACKING && _currentWeaponIndex != 0); }
 
 	bool isPlayerDead(){ return _isDead; };
 
 	bool isReachedGoal() { return _isReachedGoal; }
 
-	
 	bool isStartedDeathAnimation(){ return _startDeathAnimation; }
 
 	void getExperiencePoint(int exp);
@@ -77,25 +76,31 @@ private:
 	float _health = 0;
 	float _animTime = 0.0f;
 
-	MasaEngine::Color _color;
-	MovingState _state;
+	
+	MovingState _state = MovingState::DOWN;
 	PlayerState _playerState = PlayerState::NOMAL;
-	int _multiplyer = 1;
-	const int MAX_RUN_COUNT = 30;
-	int _runCount = 0;
+	
+
+	
 	bool _couldRun = true;
 	bool _finishAttacking = true;
 	bool _startDeathAnimation = false;
 	bool _isDead = false;
 	bool _isLookingItem = false;
 	bool _isReachedGoal = false;
+	
+
+	const int MAX_RUN_COUNT = 30;
+	int _runCount = 0;
 	int _counter = 0;
+	int _multiplyer = 1;
+
 
 	MasaEngine::TileSheet _texture;
-	MasaEngine::TileSheet _attackTexture;
 	MasaEngine::GLTexture _hpBar;
 	MasaEngine::GLTexture _hitPoint;
 	MasaEngine::Color _hpColor;
+	MasaEngine::Color _color;
 	float _baseHitPoint = 100.0f;
 	float _maxHitPoint = 100.0f;
 	float _currentHitPoint = 100.0f;
@@ -138,9 +143,12 @@ private:
 
 	MasaEngine::SoundEffect _levelUp;
 	MasaEngine::SoundEffect _item;
-	MasaEngine::SoundEffect _sword;
 
 	MasaEngine::SpriteFont _font;
+
+
+	std::vector<WeaponDesc> _weapon;
+	int _currentWeaponIndex = 0;
 
 };
 

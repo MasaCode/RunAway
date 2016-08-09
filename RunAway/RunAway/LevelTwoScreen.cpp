@@ -86,7 +86,7 @@ void LevelTwoScreen::update() {
 
 	//Check if item is taken or not
 	for (size_t i = 0; i < _items.size(); i++) {
-		if (_items[i]->isTaken()) {
+		if (_items[i]->isDisappeared()) {
 			delete _items[i];
 			_items[i] = _items.back();
 			_items.pop_back();
@@ -152,7 +152,7 @@ void LevelTwoScreen::draw() {
 
 	//Drawing items
 	for (size_t i = 0; i < _items.size(); i++) {
-		if (_camera.isBoxInView(_items[i]->getPosition(), glm::vec2(((float)_items[i]->getSize())))) {
+		if (_camera.isBoxInView(_items[i]->getPosition(), _items[i]->getSize())) {
 			_items[i]->draw(_spriteBatch);
 		}
 	}
