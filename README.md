@@ -1,22 +1,6 @@
 # RunAway
 ##Easy 2D game and game Engine created with OpenGL
 
-To use this project, You need to download following stuff:
-
-CEGUI   : http://cegui.org.uk/download
-SDL     : https://www.libsdl.org/download-2.0.php
-SDL_TTF : https://www.libsdl.org/projects/SDL_ttf/
-GLM     : http://glm.g-truc.net/0.9.6/index.html
-glew    : http://glew.sourceforge.net/
-
-Then You need to make a directory named "deps".
-In the deps directory, you also need to make "include" and "lib" directorys.
-You put all of include dependences to include and put all of lib file to lib.
-
-If you don't want to do that, you need to change project property -> VC++ -> include directories and library directories.
-
-
-
 To play this game.
 1. Arrow key to move player.
 2. Left click to attack monsters.
