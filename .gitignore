@@ -29,7 +29,3 @@
 # Executables
 *.out
 *.app
-
-
-#directory
-deps/
