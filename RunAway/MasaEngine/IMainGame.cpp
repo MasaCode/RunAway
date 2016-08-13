@@ -97,6 +97,7 @@ namespace MasaEngine{
 
 		switch (evnt.type){
 			case SDL_QUIT:
+				_isDestroying = true;
 				exitGame();
 				break;
 			case SDL_MOUSEMOTION:
@@ -146,6 +147,10 @@ namespace MasaEngine{
 
 	const float IMainGame::getFps() const{
 		return _fps;
+	}
+
+	bool IMainGame::isDestroying() {
+		return _isDestroying;
 	}
 
 }

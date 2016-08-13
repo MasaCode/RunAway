@@ -93,6 +93,9 @@ void LevelOneScreen::update(){
 	
 	checkInput();
 
+	if (_game->isDestroying())
+		return;
+
 	//Update the player and monsters.
 	updateObject();
 
@@ -119,6 +122,7 @@ void LevelOneScreen::update(){
 
 
 void LevelOneScreen::draw(){
+
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor((12.0/255.0), (126.0/255.0), (20.0/255.0), 1.0);

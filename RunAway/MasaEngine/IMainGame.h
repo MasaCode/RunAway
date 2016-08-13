@@ -32,6 +32,8 @@ namespace MasaEngine{
 
 		const float getFps() const;
 
+		bool isDestroying();
+
 	protected:
 		virtual void update();
 		virtual void draw();
@@ -52,6 +54,8 @@ namespace MasaEngine{
 		int _width = 1500;
 		int _height = 800;
 		std::string _windowName = "Default";
+
+		bool _isDestroying = false;
 
 	};
 

@@ -68,6 +68,12 @@ void LevelTwoScreen::onExit() {
 }
 
 void LevelTwoScreen::update() {
+
+	checkInput();
+
+	if (_game->isDestroying())
+		return;
+
 	_player->update(_game->inputManager, _level->getLevelData());
 	if (_player->isPlayerDead()) {
 		_player->Recreate(_level->getStartPlayerPosition());
@@ -112,7 +118,7 @@ void LevelTwoScreen::update() {
 
 	_camera.setPosition(_level->getCameraPos(_player->getPosition(), _screenSize, _camera.getScale()));
 	_camera.update();
-	checkInput();
+	
 
 	if (_player->isReachedGoal()) {
 		Sleep(300);

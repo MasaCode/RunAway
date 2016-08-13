@@ -3,7 +3,6 @@
 
 To use this project, You need to download following stuff:
 
-Box2D   : http://box2d.org/downloads/
 CEGUI   : http://cegui.org.uk/download
 SDL     : https://www.libsdl.org/download-2.0.php
 SDL_TTF : https://www.libsdl.org/projects/SDL_ttf/
