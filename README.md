@@ -10,7 +10,7 @@ To play this game.
 * Press Space key to speed up (movement and attack).
 * Black hole to next stage.
 
-![demo](https://cloud.githubusercontent.com/assets/16845513/17469667/361b9d64-5cea-11e6-9832-04e3b50d19d2.png)
+![demo](https://cloud.githubusercontent.com/assets/16845513/17687951/ecc50af6-632e-11e6-96cf-00a31be74240.gif)
 
 
 MIT License
