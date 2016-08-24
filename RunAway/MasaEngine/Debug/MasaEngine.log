@@ -1,1 +1,43 @@
-﻿  MasaEngine.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Debug\MasaEngine.lib
+﻿  Window.cpp
+  Timing.cpp
+  TextureCache.cpp
+  SpriteFont.cpp
+  SpriteBatch.cpp
+  Sprite.cpp
+  ScreenList.cpp
+  ResourceManager.cpp
+  picoPNG.cpp
+  ParticleEngine2D.cpp
+  ParticleBatch2D.cpp
+  MasaEngine.cpp
+  IOManager.cpp
+  InputManager.cpp
+  ImageLoader.cpp
+  GL_SL_Program.cpp
+  MasaEngineError.cpp
+  IMainGame.cpp
+  GUI.cpp
+c:\users\803 7496\documents\github\runaway\runaway\deps\include\cegui\exceptions.h(41): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'CEGUI::Exception'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  c:\users\803 7496\documents\github\runaway\runaway\deps\include\cegui\exceptions.h(40): note: see declaration of 'CEGUI::Exception'
+  DebugRenderer.cpp
+  Generating Code...
+  Compiling...
+  Camera2D.cpp
+  AudioEngine.cpp
+  Generating Code...
+SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
+SDL2_ttf.lib(SDL2_ttf.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
+SDL2_mixer.lib(SDL2_mixer.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+freeglut.lib(freeglut.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
+freeglut.lib(freeglut.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
+glew32.lib(glew32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+opengl32.lib(OPENGL32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
+opengl32.lib(OPENGL32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+CEGUIBase-0_d.lib(CEGUIBase-0_d.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
+CEGUIBase-0_d.lib(CEGUIBase-0_d.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+CEGUIOpenGLRenderer-0_d.lib(CEGUIOpenGLRenderer-0_d.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
+CEGUIOpenGLRenderer-0_d.lib(CEGUIOpenGLRenderer-0_d.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  MasaEngine.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Debug\MasaEngine.lib
