@@ -126,6 +126,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Fish.cpp" />
     <ClCompile Include="LevelTwoScreen.cpp" />
+    <ClCompile Include="Mace.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LevelOneScreen.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="Meat.cpp" />
     <ClCompile Include="Orga.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Skelton.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Werewolf.cpp" />
     <ClCompile Include="Wolf.cpp" />
@@ -142,6 +144,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Fish.h" />
     <ClInclude Include="LevelTwoScreen.h" />
+    <ClInclude Include="Mace.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="Defenisions.h" />
     <ClInclude Include="Indicies.h" />
@@ -153,6 +156,7 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Orga.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Skelton.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Werewolf.h" />
     <ClInclude Include="Wolf.h" />

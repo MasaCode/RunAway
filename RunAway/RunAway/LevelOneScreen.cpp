@@ -250,8 +250,8 @@ void LevelOneScreen::initLevel(){
 	}
 
 	//Testing
-	/*_monsters.push_back(new Wolf);
-	_monsters.back()->init(3, 3, glm::vec2(500, 1000));*/
+	_monsters.push_back(new Skelton);
+	_monsters.back()->init(3, 2, glm::vec2(500, 1000),20);
 
 	int numItem = randomItemNum(randomEngine);
 	int j = 0;
@@ -293,7 +293,7 @@ void LevelOneScreen::initLevel(){
 
 
 	//Testing for weapon.
-	_items.push_back(new Sword);
+	_items.push_back(new Mace);
 	_items.back()->init(glm::vec2(200, 1000));
 
 

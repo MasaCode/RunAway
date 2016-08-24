@@ -92,7 +92,7 @@ public:
 			m_hpBarSize = m_size.x;
 
 			glm::vec4 hpUVRect = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-			glm::vec4 hpBarDestRect = glm::vec4(m_position.x + m_substructDims.x, m_position.y + m_size.y + 10, m_hpBarSize, 3.0f);
+			glm::vec4 hpBarDestRect = glm::vec4(m_position.x + m_substructDims.x, m_position.y + m_size.y + m_substructDims.y + 5, m_hpBarSize, 3.0f);
 
 			calculateHitPoint();
 

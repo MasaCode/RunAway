@@ -6,8 +6,8 @@
 const float PLAYER_SPEED = 5.0f;
 const float ZOMBIE_SPEED = 4.5f;
 
-const int TILE_WIDTH = 64;
-//const int TILE_WIDTH = 32;
+//const int TILE_WIDTH = 64;
+const int TILE_WIDTH = 32;
 
 const int ITEM_SIZE = 25;
 

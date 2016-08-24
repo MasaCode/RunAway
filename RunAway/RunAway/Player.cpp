@@ -611,7 +611,7 @@ bool Player::collideWithItem(Item* item) {
 bool Player::Attack(const glm::vec2& distance){
 
 
-	if (_substructWidth >= abs(distance.x) && _substructHeight*1.5f >= abs(distance.y)){
+	if (_substructWidth >= abs(distance.x) && _substructHeight*2.0f >= abs(distance.y)){
 		if (distance.x < 0.0f && _state == MovingState::RIGHT){
 			return true;
 		}

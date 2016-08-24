@@ -72,7 +72,7 @@ void Wolf::destroy(){
 glm::vec4 Wolf::animation(){
 	glm::vec4 uvRect;
 	int tileIndex;
-	const int numTiles = 4;
+	const int NUM_TILEs = 4;
 	float animSpeed = 0.2f;
 
 	
@@ -97,7 +97,7 @@ glm::vec4 Wolf::animation(){
 		m_animTime += animSpeed * _multiplyer;
 
 		//Apply animation
-		tileIndex = tileIndex + (int)m_animTime % numTiles;
+		tileIndex = tileIndex + (int)m_animTime % NUM_TILEs;
 	}
 	else{
 		m_monsterAlpha -= 10;

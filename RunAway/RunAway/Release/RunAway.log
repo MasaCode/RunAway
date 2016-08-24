@@ -1,2 +1,11 @@
-﻿  RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.exe
+﻿  Skelton.cpp
+c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(58): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
+Skelton.cpp(62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+Skelton.cpp(231): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Generating code
+  1 of 2596 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.exe
   RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.pdb (Full PDB)

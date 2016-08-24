@@ -23,6 +23,7 @@
 #include "Wolf.h"
 #include "Werewolf.h"
 #include "Orga.h"
+#include "Skelton.h"
 
 //Items
 #include "Potion.h"
@@ -31,6 +32,7 @@
 
 //Weapons
 #include "Sword.h"
+#include "Mace.h"
 
 
 
