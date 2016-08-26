@@ -7,7 +7,7 @@
 
 Skelton::Skelton()
 {
-	m_baseHitPoint = 100;
+	m_baseHitPoint = 300;
 	m_baseAttaciPoint = 10;
 	m_experiencePoint = 30;
 	m_followingArea = 2000;

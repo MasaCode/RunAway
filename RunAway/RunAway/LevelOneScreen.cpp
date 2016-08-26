@@ -66,6 +66,9 @@ void LevelOneScreen::onEntry(){
 	//For Debuging
 	_camera.setScale(1.3);
 
+	//Initialize debuger.
+	_debuger.init();
+
 }
 
 void LevelOneScreen::onExit(){
@@ -85,6 +88,8 @@ void LevelOneScreen::onExit(){
 	_spriteBatch.dispose();
 	
 	_audioEngine.destroy();
+
+	_debuger.dispose();
 
 	_player->setReachedState(false);
 }
@@ -170,8 +175,13 @@ void LevelOneScreen::draw(){
 
 	_textureProgram.unuse();
 
-	_gui.draw();
 
+	if (_isDebugMode) {
+		drawDebug(projectionMatrix);
+	}
+
+
+	_gui.draw();
 
 }
 
@@ -238,6 +248,10 @@ void LevelOneScreen::initLevel(){
 					_monsters.push_back(new Orga);
 					_monsters.back()->init(3, 3, pos, 30);
 				}
+				else if (temp == 2) {
+					_monsters.push_back(new Skelton);
+					_monsters.back()->init(2, 3, pos, 20);
+				}
 				else{
 					_monsters.push_back(new Wolf);
 					_monsters.back()->init(2, 2, pos, movement);
@@ -250,8 +264,9 @@ void LevelOneScreen::initLevel(){
 	}
 
 	//Testing
-	_monsters.push_back(new Skelton);
-	_monsters.back()->init(3, 2, glm::vec2(500, 1000),20);
+	/*_monsters.push_back(new Skelton);
+	_monsters.back()->init(3, 2, glm::vec2(500, 1000),20);*/
+
 
 	int numItem = randomItemNum(randomEngine);
 	int j = 0;
@@ -315,6 +330,11 @@ void LevelOneScreen::checkInput(){
 		_game->onSDLEvent(evnt);
 		_gui.onSDLEvent(evnt);
 	}
+
+	if (_game->inputManager.isKeyPressed(SDLK_d)) {
+		_isDebugMode = !_isDebugMode;
+	}
+
 }
 
 void LevelOneScreen::updateObject() {
@@ -361,6 +381,28 @@ void LevelOneScreen::updateObject() {
 	}
 }
 
+
+void LevelOneScreen::drawDebug(glm::mat4& projectionMatrix) {
+	glm::vec4 destRect;
+	
+	//gonna draw debug line for monsters
+	for (size_t i = 0; i < _monsters.size(); i++) {
+		_monsters[i]->drawDebug(_debuger);
+	}
+	
+	//gonna draw debug line for items.
+	for (size_t i = 0; i < _items.size(); i++) {
+		_items[i]->drawDebug(_debuger);
+	}
+
+	//gonna draw debug line for player.
+	_player->drawDebug(_debuger);
+
+
+	_debuger.end();
+	_debuger.render(projectionMatrix, 2.0);
+
+}
 
 
 bool LevelOneScreen::onExitCliked(const CEGUI::EventArgs& e){

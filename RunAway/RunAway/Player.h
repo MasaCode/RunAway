@@ -5,6 +5,7 @@
 #include <MasaEngine/InputManager.h>
 #include <MasaEngine/AudioEngine.h>
 #include <MasaEngine/SpriteFont.h>
+#include <MasaEngine/DebugRenderer.h>
 
 #include "Monster.h"
 
@@ -21,6 +22,9 @@ public:
 	glm::vec4 animation();
 
 	void draw(MasaEngine::SpriteBatch& _spriteBatch);
+
+	//Implement this.
+	void drawDebug(MasaEngine::DebugRenderer& debuger);
 
 	void update(MasaEngine::InputManager& inputManager, const std::vector<std::string>& levelData);
 

@@ -8,7 +8,10 @@ To play this game.
 * Right click to get the items and weapons on the field.
 * Press '1' key to change weapon.
 * Press Space key to speed up (movement and attack).
+* Press 'D' key to debug mode.
 * Black hole to next stage.
+
+
 
 ![demo](https://cloud.githubusercontent.com/assets/16845513/17687951/ecc50af6-632e-11e6-96cf-00a31be74240.gif)
 

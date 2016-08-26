@@ -5,6 +5,7 @@
 #include <MasaEngine/SpriteBatch.h>
 #include <MasaEngine/SpriteFont.h>
 #include <MasaEngine/ResourceManager.h>
+#include <MasaEngine/DebugRenderer.h>
 
 #include <iostream>
 #include <algorithm>
@@ -117,6 +118,19 @@ public:
 		}
 
 	}
+
+	void drawDebug(MasaEngine::DebugRenderer& debuger) {
+
+		glm::vec4 destRect;
+		destRect.x = m_position.x + m_substructDims.x;
+		destRect.y = m_position.y + m_substructDims.y;
+		destRect.z = m_size.x;
+		destRect.w = m_size.y;
+
+		debuger.drawBox(destRect, MasaEngine::Color(255, 0, 0, 255),0);
+
+	}
+
 
 	bool collideWithLevel(const std::vector<std::string>& levelData){
 		std::vector<glm::vec2> collideTilePosition;
@@ -359,7 +373,7 @@ protected:
 	MasaEngine::TileSheet m_attackMotion;
 	MasaEngine::GLTexture m_hpBarTexture;
 	MasaEngine::GLTexture m_hpTexture;
-	
+
 	glm::vec2 m_size = glm::vec2(0.0f);
 	glm::vec2 m_additionalDims = glm::vec2(0.0f);
 	glm::vec2 m_substructDims = glm::vec2(0.0f);

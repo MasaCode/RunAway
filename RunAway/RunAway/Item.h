@@ -4,6 +4,7 @@
 
 #include <MasaEngine/SpriteBatch.h>
 #include <MasaEngine/GLTexture.h>
+#include <MasaEngine/DebugRenderer.h>
 
 #include "Defenisions.h"
 
@@ -37,6 +38,15 @@ public:
 		_spriteBatch.draw(destRect, uvRect,i_texture.id, 0.0f, i_color);
 	}
 
+	void drawDebug(MasaEngine::DebugRenderer& debuger) {
+		glm::vec4 destRect;
+		destRect.x = i_position.x;
+		destRect.y = i_position.y;
+		destRect.z = i_size.x;
+		destRect.w = i_size.y;
+
+		debuger.drawBox(destRect, MasaEngine::Color(0, 0, 255, 255), 0);
+	}
 	
 	glm::vec2 getSize() { return i_size; }
 	glm::vec2& getPosition() { return i_position; }

@@ -9,6 +9,7 @@
 #include <MasaEngine/Window.h>
 #include <MasaEngine/GUI.h>
 #include <MasaEngine/AudioEngine.h>
+#include <MasaEngine/DebugRenderer.h>
 
 #include <memory>
 
@@ -65,7 +66,7 @@ private:
 	void loadMusic();
 	void checkInput();
 	void updateObject();
-
+	void drawDebug(glm::mat4& projectionMatrix);
 
 	//Event Functions
 	bool onExitCliked(const CEGUI::EventArgs& e);
@@ -80,6 +81,7 @@ private:
 	MasaEngine::GL_SL_Program _textureProgram;
 	MasaEngine::AudioEngine _audioEngine;
 	MasaEngine::Music _bgm;
+	MasaEngine::DebugRenderer _debuger;
 
 	std::unique_ptr<LevelManager> _level;
 
@@ -91,5 +93,6 @@ private:
 	glm::vec2 _screenSize;
 
 	bool _needToDrawGoal = false;
+	bool _isDebugMode = false;
 };
 

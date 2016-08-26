@@ -509,6 +509,15 @@ bool Player::collideWithMonster(Monster* monster){
 	return false;
 }
 
+void Player::drawDebug(MasaEngine::DebugRenderer& debuger) {
+	glm::vec4 destRect;
+	destRect.x = _position.x + _substructWidth;
+	destRect.y = _position.y + _substructHeight;
+	destRect.z = _size.x;
+	destRect.w = _size.y;
+
+	debuger.drawBox(destRect, MasaEngine::Color(255, 255, 255, 255), 0);
+}
 
 
 bool Player::collideWithItem(Item* item) {
