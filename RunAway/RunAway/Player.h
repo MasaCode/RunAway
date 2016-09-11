@@ -9,6 +9,9 @@
 
 #include "Monster.h"
 
+
+//// TODO : Figure out the way to use attacking are for each weapon!
+
 class Player
 {
 public:
@@ -76,14 +79,13 @@ private:
 
 	glm::vec2 _position;
 	glm::vec2 _direction = glm::vec2(1.0f, 0.0);
-	float _speed = 0;
-	float _health = 0;
-	float _animTime = 0.0f;
-
+	glm::vec2 _attackingRange = glm::vec2(0.0f);
 	
 	MovingState _state = MovingState::DOWN;
 	PlayerState _playerState = PlayerState::NOMAL;
-	
+	float _speed = 0;
+	float _health = 0;
+	float _animTime = 0.0f;
 
 	
 	bool _couldRun = true;

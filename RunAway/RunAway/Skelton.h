@@ -15,7 +15,8 @@ public:
 	virtual void destroy() override;
 
 private:
-	void ChangeDirection();
+
+	void ChangeDirection(const std::vector<std::string>& levelData);
 
 private:
 	float _distanceX = 0;

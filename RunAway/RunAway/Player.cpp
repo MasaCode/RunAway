@@ -44,13 +44,8 @@ void Player::init(glm::vec2& position, float speed){
 	_item = _audioEngine.loadSoundEffect("Sound/item.ogg");
 
 
-	//Intialize default attack motion.
-	/*_weapon.resize(1);
-	_weapon[0].attack = 0;
-	_weapon[0].attackTexture.init(MasaEngine::ResourceManager::getTexture("Assets/Player/player_nomal.png"), glm::ivec2(6, 5));
-	_weapon[0].sound = _audioEngine.loadSoundEffect("Sound/sword.ogg");*/
-	_weapon.push_back(WeaponDesc(MasaEngine::ResourceManager::getTexture("Assets/Player/player_nomal.png"), glm::ivec2(6, 5), _audioEngine.loadSoundEffect("Sound/sword.ogg"), 0));
-
+	_weapon.push_back(WeaponDesc(MasaEngine::ResourceManager::getTexture("Assets/Player/player_nomal.png"), glm::ivec2(6, 5), _audioEngine.loadSoundEffect("Sound/sword.ogg"), 0,glm::vec2(0.0)));
+	_attackingRange = glm::vec2(0.0f);
 
 	_position = position;
 	_speed = speed;
@@ -69,9 +64,9 @@ void Player::init(glm::vec2& position, float speed){
 
 	_size = glm::vec2(30.0f, 40.0f);
 	_additionalWidth = 130;
-	_additionalHeight = 56;
+	_additionalHeight = 60;
 	_substructWidth = 65;
-	_substructHeight = 28;
+	_substructHeight = 30;
 
 	_needExperiencePoint = 30;
 
@@ -308,11 +303,8 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 
 		if (inputManager.isKeyPressed(SDLK_1)) {
 
-			_currentWeaponIndex++;
-			if (_currentWeaponIndex >= (int)_weapon.size()) {
-				//std::cout << _weapon.size() << std::endl;
-				_currentWeaponIndex = 0;
-			}
+			_currentWeaponIndex = (_currentWeaponIndex + 1) % (int)_weapon.size();
+			_attackingRange = _weapon[_currentWeaponIndex].attackingRange / glm::vec2(2.0f);
 
 		}
 
@@ -510,13 +502,32 @@ bool Player::collideWithMonster(Monster* monster){
 }
 
 void Player::drawDebug(MasaEngine::DebugRenderer& debuger) {
+	
+	//For palyer itself.
 	glm::vec4 destRect;
 	destRect.x = _position.x + _substructWidth;
 	destRect.y = _position.y + _substructHeight;
 	destRect.z = _size.x;
 	destRect.w = _size.y;
 
+	//For player sprites.
+	glm::vec4 destRect2;
+	destRect2.x = _position.x;
+	destRect2.y = _position.y;
+	destRect2.z = _size.x + _additionalWidth;
+	destRect2.w = _size.y + _additionalHeight;
+
+	//For player attacking range.
+	glm::vec4 destRect3;
+	destRect3.x = _position.x + ((_substructWidth + _size.x/2.0) - _attackingRange.x);
+	destRect3.y = _position.y + ((_substructHeight + _size.y/2.0)- _attackingRange.y);
+	destRect3.z = _attackingRange.x*2;
+	destRect3.w = _attackingRange.y*2;
+
 	debuger.drawBox(destRect, MasaEngine::Color(255, 255, 255, 255), 0);
+	debuger.drawBox(destRect2, MasaEngine::Color(255, 255, 255, 255), 0);
+	debuger.drawBox(destRect3, MasaEngine::Color(255, 255, 255, 255), 0);
+
 }
 
 
@@ -566,8 +577,7 @@ bool Player::collideWithItem(Item* item) {
 		}
 		else {
 			//For Weapons.
-			_weapon.push_back(WeaponDesc(MasaEngine::ResourceManager::getTexture(item->getAttackPath()), glm::ivec2(6, 5), _audioEngine.loadSoundEffect(item->getSoundPath()), item->getAttackPoint()));
-
+			_weapon.push_back(WeaponDesc(MasaEngine::ResourceManager::getTexture(item->getAttackPath()), glm::ivec2(6, 5), _audioEngine.loadSoundEffect(item->getSoundPath()), item->getAttackPoint(),item->getAttackingArea()));
 
 		}
 			item->destroy();
@@ -618,9 +628,9 @@ bool Player::collideWithItem(Item* item) {
 
 
 bool Player::Attack(const glm::vec2& distance){
+		
 
-
-	if (_substructWidth >= abs(distance.x) && _substructHeight*2.0f >= abs(distance.y)){
+	if (_attackingRange.x >= abs(distance.x) && _attackingRange.y >= abs(distance.y)){
 		if (distance.x < 0.0f && _state == MovingState::RIGHT){
 			return true;
 		}

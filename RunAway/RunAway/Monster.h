@@ -207,6 +207,7 @@ protected:
 		float yDepth = MIN_DISTANCE.y - abs(distVec.y);
 
 		if (xDepth > 0 && yDepth > 0){
+			m_isCollided = true;
 			if (std::max(xDepth, 0.0f) < std::max(yDepth, 0.0f)){
 				if (distVec.x < 0){
 					m_position.x -= (xDepth / 2.0f);
@@ -251,6 +252,7 @@ protected:
 		float yDepth = MIN_DISTANCE.y - abs(distVec.y);
 
 		if (xDepth > 0 && yDepth > 0) {
+			m_isCollided = true;
 			if (std::max(xDepth, 0.0f) < std::max(yDepth, 0.0f)) {
 				if (distVec.x < 0) {
 					m_position.x -= xDepth;

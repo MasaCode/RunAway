@@ -21,6 +21,7 @@ void Mace::init(const glm::vec2& position) {
 	i_attackTexturePath = "Assets/Player/player_mace.png";
 	i_soundPath = "Sound/mace.mp3";
 	i_size = glm::vec2(ITEM_SIZE, 40);
+	i_attackingArea = glm::vec2(85, 60);
 
 	i_info = ItemInfo::WEAPON;
 

@@ -51,13 +51,15 @@ enum class ItemInfo {
 };
 
 struct WeaponDesc {
-	WeaponDesc(const MasaEngine::GLTexture& attackTexture, const  glm::ivec2& attackDims, MasaEngine::SoundEffect& sound, int attack) {
+	WeaponDesc(const MasaEngine::GLTexture& attackTexture, const  glm::ivec2& attackDims, MasaEngine::SoundEffect& sound, int attack, const glm::vec2& attackingRange) {
 		this->attackTexture.init(attackTexture, attackDims);
 		this->sound = sound;
 		this->attack = attack;
+		this->attackingRange = attackingRange;
 	}
 
 	MasaEngine::TileSheet attackTexture;
 	MasaEngine::SoundEffect sound;
 	int attack;
+	glm::vec2 attackingRange;
 };

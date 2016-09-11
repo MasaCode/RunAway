@@ -63,6 +63,7 @@ public:
 	std::string getAttackPath() { return i_attackTexturePath; }
 	std::string getSoundPath() { return i_soundPath; }
 	int getAttackPoint() { return i_attack; }
+	glm::vec2 getAttackingArea() { return i_attackingArea; }
 
 protected:
 	glm::vec2 i_size = glm::vec2(ITEM_SIZE);
@@ -74,6 +75,8 @@ protected:
 	MasaEngine::GLTexture i_texture;
 	MasaEngine::Color i_color = MasaEngine::Color(255, 255, 255, 255);
 
+
+
 	//For Item
 	int i_effects = 0;
 	int i_effectiveTime = 0;
@@ -82,6 +85,7 @@ protected:
 	//For Weapon
 	std::string i_attackTexturePath;
 	std::string i_soundPath;
+	glm::vec2 i_attackingArea = glm::vec2(0);
 	int i_attack = 0;
 
 };

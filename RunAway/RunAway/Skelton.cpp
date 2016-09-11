@@ -162,7 +162,7 @@ void Skelton::update(const std::vector<std::string>& levelData, const glm::vec2&
 			if (m_state != MonsterState::ATTACKING) {
 				m_animTime = 0;
 				m_waitingCounter = 0;
-				ChangeDirection();
+				ChangeDirection(levelData);
 			}
 
 			m_state = MonsterState::ATTACKING;
@@ -233,16 +233,11 @@ void Skelton::update(const std::vector<std::string>& levelData, const glm::vec2&
 
 
 				auto prevState = m_direction;
-				ChangeDirection();
-				if (prevState == m_direction && m_isCollided) {
-					while (prevState == m_direction) {
-						m_direction = (MovingState)randDirection(randomEngine);
-					}
-				}
+				
 
-				if (m_isCollided) {
-					m_isCollided = false;
-				}
+				ChangeDirection(levelData);
+
+
 			}
 		}
 
@@ -267,41 +262,98 @@ void Skelton::destroy(){
 
 
 
-void Skelton::ChangeDirection() {
+void Skelton::ChangeDirection(const std::vector<std::string>& levelData) {
+
+	auto prevState = m_direction;
+	glm::vec2 gridPos = glm::vec2(floor(m_position.x / (float)TILE_WIDTH), floor(m_position.y / (float)TILE_WIDTH));
+	int x = 0, y = 0;
+	int additionalIndex = 0;
+
 	if(_distanceX > 0.0f && _distanceY > 0.0f) {
 		//right upper
 		if (abs(_distanceX) > abs(_distanceY)) {
 			m_direction = MovingState::RIGHT;
+			x += 1;
 		}
 		else {
 			m_direction = MovingState::UP;
+			y -= 1;
 		}
 	}
 	else if (_distanceX > 0.0f && _distanceY <= 0.0f) {
 		//right lower
 		if (abs(_distanceX) > abs(_distanceY)) {
 			m_direction = MovingState::RIGHT;
+			x += 1;
 		}
 		else {
 			m_direction = MovingState::DOWN;
+			y += 1;
 		}
 	}
 	else if (_distanceX < 0.0f && _distanceY > 0.0f) {
 		//left upper
 		if (abs(_distanceX) > abs(_distanceY)) {
 			m_direction = MovingState::LEFT;
+			x -= 1;
 		}
 		else {
 			m_direction = MovingState::UP;
+			y -= 1;
 		}
 	}
 	else {
 		//left lower
 		if (abs(_distanceX) > abs(_distanceY)) {
 			m_direction = MovingState::LEFT;
+			x -= 1;
 		}
 		else {
 			m_direction = MovingState::DOWN;
+			y += 1;
 		}
 	}
+
+
+	if (m_isCollided) {
+		m_isCollided = false;
+		if (levelData[(int)gridPos.y + y][(int)gridPos.x + x] != '.') {
+			y = -y;
+			x = -x;
+			if (levelData[(int)gridPos.y + y][(int)gridPos.x + x] != '.') {
+				if (x == 0) {
+					x = 1;
+					y = 0;
+				}
+				else {
+					x = 0;
+					y = 1;
+				}
+
+				if (levelData[(int)gridPos.y + y][(int)gridPos.x + x] != '.') {
+					x = -x;
+					y = -y;
+				}
+
+			}
+			
+
+			if (x == 1) {
+				m_direction = MovingState::RIGHT;
+			}
+			else if (x == -1) {
+				m_direction = MovingState::LEFT;
+			}
+			else if (y == 1) {
+				m_direction = MovingState::UP;
+			}
+			else {
+				m_direction = MovingState::DOWN;
+			}
+
+		}
+	
+	
+	}
 }
+

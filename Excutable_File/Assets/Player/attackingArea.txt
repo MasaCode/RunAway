@@ -1,0 +1,7 @@
+Mace
+Attacking width  : 85
+Attacking height : 65
+
+Sword 
+Attacking width  : 160
+Attacking heihgt : 100
