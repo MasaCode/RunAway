@@ -1,8 +1,2 @@
-﻿  Player.cpp
-c:\users\803 7496\documents\github\runaway\runaway\runaway\Item.h(69): warning C4244: 'argument': conversion from 'const int' to 'const float', possible loss of data
-Player.cpp(522): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-Player.cpp(523): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Generating code
-  Finished generating code
-  RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.exe
+﻿  RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.exe
   RunAway.vcxproj -> C:\Users\803 7496\Documents\GitHub\RunAway\RunAway\Release\RunAway.pdb (Full PDB)

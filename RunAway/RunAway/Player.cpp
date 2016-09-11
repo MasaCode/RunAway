@@ -197,7 +197,7 @@ void Player::draw(MasaEngine::SpriteBatch& _spriteBatch){
 		}
 		else{
 			
-			_spriteBatch.draw(destRect, uvRect, _weapon[_currentWeaponIndex].attackTexture.texture.id, 0.0f, _color);
+			_spriteBatch.draw(destRect, uvRect, _weapon[_currentWeaponIndex].attackTexture.texture.id, 1.0f, _color);
 		}
 	}
 
@@ -316,7 +316,7 @@ void Player::update(MasaEngine::InputManager& inputManager, const std::vector<st
 }
 
 glm::vec2 Player::calculatePositionInGrid() const {
-	glm::vec2 centerPos = glm::vec2(floor((_position.x + _size.x / 2 + _substructWidth / 2) / (float)TILE_WIDTH), floor((_position.y + _size.y / 2 + _substructHeight / 2) / (float)TILE_WIDTH));
+	glm::vec2 centerPos = glm::vec2(floor((_position.x + _size.x / 2 + _substructWidth) / (float)TILE_WIDTH), floor((_position.y + _size.y / 2 + _substructHeight) / (float)TILE_WIDTH));
 	return centerPos;
 }
 
@@ -630,7 +630,7 @@ bool Player::collideWithItem(Item* item) {
 bool Player::Attack(const glm::vec2& distance){
 		
 
-	if (_attackingRange.x >= abs(distance.x) && _attackingRange.y >= abs(distance.y)){
+	if (_attackingRange.x >= abs(distance.x) && _attackingRange.y * 1.5f >= abs(distance.y)){
 		if (distance.x < 0.0f && _state == MovingState::RIGHT){
 			return true;
 		}

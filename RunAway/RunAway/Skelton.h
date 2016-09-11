@@ -16,7 +16,7 @@ public:
 
 private:
 
-	void ChangeDirection(const std::vector<std::string>& levelData);
+	void ChangeDirection(const sstd::vector<std::string>& levelData);
 
 private:
 	float _distanceX = 0;
